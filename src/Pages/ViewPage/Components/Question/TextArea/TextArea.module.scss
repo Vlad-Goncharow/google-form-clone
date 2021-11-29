@@ -1,0 +1,22 @@
+.item {
+  width: 100%;
+
+  label {
+    width: 100%;
+    height: 1px;
+    display: block;
+    background: transparent;
+  }
+}
+
+.input {
+  width: 100%;
+  padding-bottom: 5px;
+
+  outline: none;
+  border: none;
+
+  &:focus+label {
+    background: indigo;
+  }
+}

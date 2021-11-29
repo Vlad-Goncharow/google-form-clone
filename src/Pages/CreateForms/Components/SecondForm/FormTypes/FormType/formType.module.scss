@@ -1,0 +1,44 @@
+.activeSelect {
+  color: #404040;
+  align-items: center;
+  display: flex;
+  max-width: 310px;
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  cursor: pointer;
+  padding: 8px 48px;
+  font-size: 14px;
+  position: relative; 
+
+  &:hover{
+    background-color: #eeeeee;
+  }
+
+  &_active{
+    background-color: rgba(26, 115, 232, 12%);
+  }
+
+  svg{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.activeCheck {
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+
+.activeDrop {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  height: 25px;
+}

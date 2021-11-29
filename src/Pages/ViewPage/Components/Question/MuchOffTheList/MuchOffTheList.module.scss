@@ -1,0 +1,26 @@
+.variant {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.icon {
+  border: none;
+  background: transparent;
+  margin-right: 10px;
+  border:none;
+  width: 24px;
+  height: 24px;
+
+  &_active {
+    color: indigo
+  }
+}
+
+.name {
+  cursor: pointer;
+}

@@ -1,0 +1,143 @@
+.item {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+}
+
+.left {
+  margin-right: 10px;
+  
+}
+
+.number {
+  margin-right: 10px;
+  font-size: 15px;
+}
+
+.nameItem {
+  position: relative;
+  flex: auto;
+
+  label {
+    display: none;
+
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    label {
+      cursor: pointer;
+      display: flex;
+
+      &:hover {
+        background: rgb(241, 237, 237);
+      }
+    }
+  }
+}
+
+.name {
+  width: 100%;
+  font-family: Roboto,
+    Arial,
+    sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: .2px;
+  line-height: 20px;
+  color: #202124;
+  border: none;
+  height: 48px;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    .hoverItem {
+      display: block;
+    }
+  }
+
+  &::placeholder {
+    font-family: Roboto,
+      Arial,
+      sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .2px;
+    line-height: 20px;
+    color: #202124;
+  }
+
+  &:focus+label {
+    display: flex;
+  }
+}
+
+.hoverItem {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 12%);
+  display: none;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.iconRight {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background: #f9f9f9;
+  }
+}
+
+.imgIcon {
+  display: none;
+}
+
+.addVAr {
+  display: flex;
+  align-items: center;
+
+  button {
+    font-family: Roboto,
+      Arial,
+      sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .2px;
+    line-height: 20px;
+    color: #70757a;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+}
+.iconLeft {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}

@@ -1,0 +1,56 @@
+.sideBar {
+  position: absolute;
+  right: -60px;
+  margin-left: 15px;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  align-items: center;
+  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+  0 1px 3px 0 rgb(0 0 0 / 12%);
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  transition: top .5s ease-in-out;
+  padding: 8px 0;
+
+  @media(max-width:992px){
+    margin-left: 0;
+    position: fixed;
+    top: auto !important;
+    bottom: -1px !important;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 90%;
+    padding: 15px 25px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    ul{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+
+.sideBar ul > li {
+  cursor: pointer;
+  margin-top: 2px;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg{
+    fill:#5f6368;
+  }
+}
