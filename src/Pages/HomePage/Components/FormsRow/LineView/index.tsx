@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { DeleteFormPayload, FormTypeObject } from '../../../../../Redux/Types/FormsTypes';
 import { useDispatch } from 'react-redux';
 import { DeleteForm } from '../../../../../Redux/actions/FormAction';
+import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside';
 
 
 interface LineViewProps{
@@ -22,22 +23,8 @@ const LineView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormP
   const dispatch = useDispatch()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
-
   const refForm = React.useRef(null)
-
-  React.useEffect(() => {
-    const qwe = (e: any) => {
-      if (e.target !== refForm.current) {
-        setOpenMenu(false)
-      }
-    }
-    if (openMenu) {
-      document.addEventListener('click', qwe)
-    }
-    return () => {
-      document.removeEventListener('click', qwe)
-    }
-  }, [openMenu])
+  useOnClickOutside(refForm, () => setOpenMenu(false))
 
 
   const removeForm = (form: FormTypeObject, obj: DeleteFormPayload) => {

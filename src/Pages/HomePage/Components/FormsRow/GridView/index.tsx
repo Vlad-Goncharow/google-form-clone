@@ -10,6 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside'
 
 interface LineViewProps {
   form: FormTypeObject;
@@ -21,22 +22,8 @@ export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, chan
   const dispatch = useDispatch()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
-
   const refForm = React.useRef(null)
-
-  React.useEffect(() => {
-    const qwe = (e: any) => {
-      if (e.target !== refForm.current) {
-        setOpenMenu(false)
-      }
-    }
-    if (openMenu) {
-      document.addEventListener('click', qwe)
-    }
-    return () => {
-      document.removeEventListener('click', qwe)
-    }
-  }, [openMenu])
+  useOnClickOutside(refForm, () => setOpenMenu(false))
 
   const removeForm = (form: FormTypeObject, obj: DeleteFormPayload) => {
     dispatch(DeleteForm(form, obj))

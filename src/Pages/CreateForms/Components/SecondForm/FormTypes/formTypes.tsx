@@ -9,6 +9,8 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 
 import { AddNewQuestionActionPayLoad } from '../../../../../Redux/Types/QuestionsTypes';
+import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside';
+
 interface FormTypesProps {
     question: AddNewQuestionActionPayLoad;
 }
@@ -60,20 +62,8 @@ const FormTypes: React.FC<FormTypesProps> = ({question }) => {
     const [selectActive, setSelectActive] = useState<boolean>(false)
     //Проверка на клик вне менюшки
     const refMenu = React.useRef<HTMLDivElement>(null)
-    React.useEffect(() => {
-        const qwe = (e: any) => {
-            if (e.target !== refMenu.current) {
-                setSelectActive(false)
-            }
-        }
-        if (selectActive) {
-            document.addEventListener('click', qwe)
-        }
-        return () => {
-            document.removeEventListener('click', qwe)
-        }
-    }, [selectActive])
-
+    //хук на клик в не менюшки
+    useOnClickOutside(refMenu, () => setSelectActive(false))
     //Иконки выбраного типа
     let Icon = icons[types[types.findIndex((el: TypeMenu) => el.name === question.questionType)].icon]
 

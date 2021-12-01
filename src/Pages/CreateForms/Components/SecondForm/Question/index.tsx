@@ -17,6 +17,7 @@ import { Questions } from '../Questions'
 import { FormTypeObject } from '../../../../../Redux/Types/FormsTypes';
 import { FormContext } from '../../..';
 import { debounce } from '@mui/material/utils';
+import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside';
 
 
 interface QuestionProps {
@@ -34,20 +35,8 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
 
   const [descrPopup,setDescrPopup] = React.useState<boolean>(false)
   const descrPopupRef = React.useRef<HTMLDivElement>(null)
-
-  React.useEffect(() => {
-    const qwe = (e: any) => {
-      if (e.target !== descrPopupRef.current) {
-        setDescrPopup(false)
-      }
-    }
-    if (descrPopup) {
-      document.addEventListener('click', qwe)
-    }
-    return () => {
-      document.removeEventListener('click', qwe)
-    }
-  }, [descrPopup])
+  //хук на клик в не блока
+  useOnClickOutside(descrPopupRef, () => setDescrPopup(false))
 
   const setDescrIsActive = (form: FormTypeObject, obj: QuestionDesctIsActivePayload) =>{
     dispatch(ChangeDescrIsActive(form, obj))
