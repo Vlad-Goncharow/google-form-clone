@@ -7,7 +7,8 @@ export interface FormTypeObject {
   questions: any,
   formTheme:string,
   formThemeBackGround:string,
-  formId?:number
+  formId?:number,
+  FormDescr:string
 }
 
 export interface formsState {
@@ -32,6 +33,19 @@ export interface DeleteFormPayload {
   id: string
 }
 //=====Удалить форма /delete form
+
+
+
+//=====Изменить описание формы /change form descr
+export interface ChangeFormDescrAction{
+  type:FormActionsTypes.CHANGE_FORM_DESCR
+  payload: ChangeFormDescrPayload
+}
+export interface ChangeFormDescrPayload{
+  id: string;
+  FormDescr: string;
+}
+//=====Изменить описание формы /change form descr
 
 
 
@@ -68,6 +82,6 @@ export interface startLaoding{
 }
 export interface finishLoading{
   type:FormActionsTypes.LOADING_FORM_FINISH,
-  paylaod: FormTypeObject[]
+  payload: FormTypeObject[]
 }
 //======загрузка форм/form loading

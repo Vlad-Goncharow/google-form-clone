@@ -76,6 +76,7 @@ function HomePage() {
               formName: 'Новая форма',
               formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
               id: time,
+              FormDescr: '',
               questions: [
                 {
                   questionOneOfTheList: [],

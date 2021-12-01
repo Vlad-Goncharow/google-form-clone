@@ -12,6 +12,10 @@ const Header: React.FC<HeaderProps> = ({form}) => {
       <div className={s.wrapper}>
         <header className={s.top}>
           <h1>{form?.formName}</h1>
+          {
+            form?.FormDescr !== '' &&
+            <h2>{form?.FormDescr}</h2>
+          }
         </header>
         <div className={s.line}></div>
         <footer className={s.bottom}>

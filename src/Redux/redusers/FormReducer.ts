@@ -24,7 +24,7 @@ export function createForm(state = initialState, action: FormAction): formsState
             return{
                 ...state,
                 isLoading:false,
-                form:action.paylaod
+                form: action.payload
             }
         case FormActionsTypes.ADD_NEW_FORM:
             return {
@@ -38,6 +38,19 @@ export function createForm(state = initialState, action: FormAction): formsState
                         return {
                             ...item,
                             formName: action.payload.formName
+                        }
+                    }
+                    return item
+                })
+            }
+        case FormActionsTypes.CHANGE_FORM_DESCR:
+            return {
+                ...state,
+                form: state.form.map((item: FormTypeObject) => {
+                    if (item.id === action.payload.id) {
+                        return {
+                            ...item,
+                            FormDescr: action.payload.FormDescr
                         }
                     }
                     return item
@@ -242,7 +255,7 @@ export function createForm(state = initialState, action: FormAction): formsState
                     return form
                 })
             };
-        case FormActionsTypes.RENAME_FORM_DESCR:
+        case FormActionsTypes.RENAME_QUESTION_DESCR:
             return {
                 ...state,
                 form: state.form.map((form: FormTypeObject) => {

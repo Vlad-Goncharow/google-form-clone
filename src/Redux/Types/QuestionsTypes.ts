@@ -139,7 +139,7 @@ export interface QuestionDesctIsActivePayload {
 
 //=====Добавить описание вопроса /add questiond descr
 export interface ChangeQuestionDesctAction{
-  type: FormActionsTypes.RENAME_FORM_DESCR,
+  type: FormActionsTypes.RENAME_QUESTION_DESCR,
   payload: ChangeQuestionDescrPayload
 }
 export interface ChangeQuestionDescrPayload{

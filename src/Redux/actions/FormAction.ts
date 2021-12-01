@@ -2,7 +2,7 @@ import axios from "axios"
 import { Dispatch } from "react"
 import { FormAction, FormActionsTypes } from "../Types"
 
-import { FormTypeObject, RenameFormPayLoad, ChangeFormThemePayLoad, DeleteFormPayload} from "../Types/FormsTypes"
+import { FormTypeObject, RenameFormPayLoad, ChangeFormThemePayLoad, DeleteFormPayload, ChangeFormDescrPayload} from "../Types/FormsTypes"
 
 export const addForm = (form: FormTypeObject) => {
     return async (dispatch: Dispatch<FormAction>) =>{
@@ -25,7 +25,7 @@ export const onLoadForms = () => {
         try{
             dispatch({ type: FormActionsTypes.LOADING_FORM_START })
             const { data } = await axios.get<FormTypeObject[]>('https://6115dc868f38520017a385df.mockapi.io/form')
-            dispatch({ type: FormActionsTypes.LOADING_FORM_FINISH,paylaod:data })
+            dispatch({ type: FormActionsTypes.LOADING_FORM_FINISH, payload:data })
         } catch(e) {
             alert('При закгрузки произошла ошибка, попробуйте еще раз')
         }
@@ -41,6 +41,21 @@ export const RenameForm = (form: FormTypeObject | undefined,obj: RenameFormPayLo
             })
             await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, { ...form, formName: obj.formName })
         } catch(e) {
+            alert('При изменении произошла ошибка попробуйте еще раз')
+        }
+    }
+}
+
+export const RenameFormDescr = (form: FormTypeObject | undefined, obj: ChangeFormDescrPayload) => {
+    return async (dispatch: Dispatch<FormAction>) => {
+        try {
+            dispatch({
+                type: FormActionsTypes.CHANGE_FORM_DESCR,
+                payload: obj
+            })
+            await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, 
+            { ...form, FormDescr: obj.FormDescr })
+        } catch (e) {
             alert('При изменении произошла ошибка попробуйте еще раз')
         }
     }

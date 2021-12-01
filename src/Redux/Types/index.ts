@@ -4,7 +4,8 @@ import {
   RenameFormAction, 
   ChangeFormTheme,
   startLaoding,
-  finishLoading
+  finishLoading,
+  ChangeFormDescrAction
 } from "./FormsTypes";
 
 import { 
@@ -22,12 +23,13 @@ import {
 
 export enum FormActionsTypes {
   ADD_NEW_FORM = 'ADD_NEW_FORM',
+  CHANGE_FORM_DESCR = 'CHANGE_FORM_DESCR',
   LOADING_FORM_START = 'LOADING_FORM_START',
   LOADING_FORM_FINISH = 'LOADING_FORM_FINISH',
   LOADING_FORM_ERROR = 'LOADING_FORM_SERROR',
   DELETE_FORM = 'DELETE_FORM',
   RENAME_FORM = 'RENAME_FORM',
-  RENAME_FORM_DESCR = 'RENAME_FORM_DESCR',
+  RENAME_QUESTION_DESCR = 'RENAME_QUESTION_DESCR',
   CHANGE_FORM_THEME = 'CHANGE_FORM_THEME',
   ADD_NEW_QUESTION = 'ADD_NEW_QUESTION',
   REMOVE_QUESTION = 'REMOVE_QUESTION',
@@ -43,6 +45,7 @@ export enum FormActionsTypes {
 
 export type FormAction = startLaoding | 
 finishLoading | 
+ChangeFormDescrAction |
 AddFormAction | 
 DeleteFormAction | 
 RenameFormAction | 

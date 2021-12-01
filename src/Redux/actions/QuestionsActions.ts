@@ -131,7 +131,7 @@ export const ChangeQuestionDescr = (form: FormTypeObject, obj: ChangeQuestionDes
   return async (dispatch: Dispatch<FormAction>) => {
     try {
       dispatch({
-        type: FormActionsTypes.RENAME_FORM_DESCR,
+        type: FormActionsTypes.RENAME_QUESTION_DESCR,
         payload: obj
       })
 
