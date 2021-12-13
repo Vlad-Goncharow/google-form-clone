@@ -45,7 +45,7 @@ const OneOfTheList: React.FC<OneOfTheListProps> = ({ item, itemIndex, active }) 
 
           <div className={s.nameItem}>
             <VariantName item={item} variant={el} />
-            <label htmlFor="name">
+            <label>
               <ImageOutlinedIcon />
             </label>
             <div className={s.hoverItem}></div>

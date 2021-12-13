@@ -29,7 +29,7 @@ export const icons: any = {
     ArrowDropDownCircleIcon
 };
 
-const FormTypes: React.FC<FormTypesProps> = ({question }) => {
+const FormTypes: React.FC<FormTypesProps> = React.memo(({ question }) => {
     const types: TypeMenu[] = [
         {
             id: 59713,
@@ -75,7 +75,8 @@ const FormTypes: React.FC<FormTypesProps> = ({question }) => {
                         {
                             types.map((el: TypeMenu, index: number) =>
                                 <FormType
-                                    key={`type ${index}`}
+                                    setSelectActive={setSelectActive}
+                                    key={`type_${el.id}`}
                                     question={question}
                                     item={el}
                                     active={selectActive}
@@ -83,15 +84,19 @@ const FormTypes: React.FC<FormTypesProps> = ({question }) => {
                             )
                         }
                     </div>
-                :
+                    :
                     <div onClick={() => setSelectActive(true)} className={s.activeSelect}>
                         <Icon className={s.acticveSelectImg} />
                         <div className={s.activeSelectName}>{question.questionType}</div>
-                        <img className={s.activeSelectArrow} src="https://img.icons8.com/material-sharp/25/000000/expand-arrow--v1.png" alt="" />
+                        <img 
+                            className={s.activeSelectArrow} 
+                            src="https://img.icons8.com/material-sharp/25/000000/expand-arrow--v1.png" 
+                            alt="icon" 
+                        />
                     </div>
             }
         </div>
     );
-};
+})
 
 export default FormTypes;

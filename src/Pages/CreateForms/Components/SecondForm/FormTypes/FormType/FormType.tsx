@@ -15,9 +15,10 @@ interface typeProps {
     item: TypeMenu;
     active:boolean;
     question: AddNewQuestionActionPayLoad;
+    setSelectActive:(bool:boolean) => void;
 }
 
-const FormType: React.FC<typeProps> = ({ item, active, question} ) => {
+const FormType: React.FC<typeProps> = ({ item, active, question, setSelectActive} ) => {
     const dispatch = useDispatch()
     const { Form }: any = React.useContext(FormContext);
 
@@ -50,6 +51,7 @@ const FormType: React.FC<typeProps> = ({ item, active, question} ) => {
                         })
                     }
                 }
+                setSelectActive(false)
             }}
         >
             <Icon />
@@ -58,7 +60,7 @@ const FormType: React.FC<typeProps> = ({ item, active, question} ) => {
             </div>
             <div>
                 <img style={active ? { display: "none" } : { display: 'block' }} className={s.activeDrop}
-                    src="https://img.icons8.com/material-sharp/25/000000/expand-arrow--v1.png" alt='' />
+                    src="https://img.icons8.com/material-sharp/25/000000/expand-arrow--v1.png" alt='arrow' />
             </div>
         </div>
     );

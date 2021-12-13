@@ -9,7 +9,7 @@ export interface LogoProp  {
 const Logo: React.FC<LogoProp> = ({name}) => {
   return (
     <Link className={s.logo} to='/'>
-      <img src="https://www.gstatic.com/images/branding/product/1x/forms_2020q4_48dp.png" alt="" />
+      <img src="https://www.gstatic.com/images/branding/product/1x/forms_2020q4_48dp.png" alt="Logo icon" />
       <span>{name}</span>
     </Link>
   )

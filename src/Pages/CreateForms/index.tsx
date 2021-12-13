@@ -32,7 +32,6 @@ export const CreateForms: React.FC = () => {
             dispatch(onLoadForms())
         }
     },[Form, dispatch])
-    
     return (
         <FormContext.Provider value={{
             Form
@@ -40,13 +39,13 @@ export const CreateForms: React.FC = () => {
             {
                 isLoading ?
                 <div className={s.loader}>
-                        <Loader
-                            type="Puff"
-                            color="#00BFFF"
-                            height={100}
-                            width={100}
-                            timeout={3000} //3 secs
-                        />
+                    <Loader
+                        type="Puff"
+                        color="#00BFFF"
+                        height={100}
+                        width={100}
+                        timeout={3000} //3 secs
+                    />
                 </div>
                 :
             <div 

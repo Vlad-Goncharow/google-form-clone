@@ -26,7 +26,7 @@ export const SecondForm: React.FC = () => {
             {
                 Form?.questions.map((item: AddNewQuestionActionPayLoad, index: number) =>
                     <Question 
-                        key={`${Form.name}_${index}`} 
+                        key={`question_${item.questionId}`} 
                         item={item} 
                         active={active} 
                         setSidebarTop={setSidebarTop}

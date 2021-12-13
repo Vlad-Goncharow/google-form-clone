@@ -50,62 +50,69 @@ function HomePage() {
   React.useEffect(() => {
     dispatch(onLoadForms())
   }, [dispatch])
-  return (
-    isLoading ?
-      <div className={s.loader} >
-        <Loader
-          type="Puff"
-          color="#00BFFF"
-          height={100}
-          width={100}
-          timeout={3000} //3 secs
-        />
-      </div>
-      :
-      <div className={s.HomePage}>
-        <Header ChangeFormView={ChangeFormView} />
-        <FormsRow grigView={grigView} changeFormPopupId={changeFormPopupId} changePopupValue={changePopupValue} />
-        {
-          changeFormPopup &&
-          <NameComp changeFormId={changeFormId} changePopupValue={changePopupValue} />
-        }
-        <div
-          className={s.createForm}
-          onClick={() => {
-            AddNewForm({
-              formName: 'Новая форма',
-              formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
-              id: time,
-              FormDescr: '',
-              questions: [
-                {
-                  questionOneOfTheList: [],
-                  parentId: time,
-                  questionName: "Вопрос",
-                  questionDescr:'',
-                  questionType: 'Текст (строка)',
-                  questionId:uuidv1(),
-                  requiredQuestion: false,
-                  questionDescrIsActive: false
-                }
-              ],
-              formTheme: '#673ab7',
-              formThemeBackGround: '#f0ebf8'
-            });
 
-          }}
-        >
-          <svg>
-            <g xmlns="http://www.w3.org/2000/svg" >
-              <path fill="#4285F4" d="M10 10v4.001h14V10z" />
-              <path fill="#FBBC05" d="M10 10H0v4.001h10L14.001 10z" />
-              <path fill="#34A853" d="M10 14h4v10h-4z" />
-              <path fill="#EA4335" d="M10 0v14l4.001-4V0z" />
-            </g>
-          </svg>
+  function checkLoader(){
+    //я сделал это для того, если проверять через тернарку ошибки нет, но div меняет цвет и выглядит как то не очень
+    if (isLoading){
+      return (
+        <div className={s.loader} >
+          <Loader
+            type="Puff"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            timeout={3000} //3 secs
+          />
         </div>
-      </div>
-  )
+      )
+    } else {
+      return (
+        <div className={s.HomePage}>
+          <Header ChangeFormView={ChangeFormView} />
+          <FormsRow grigView={grigView} changeFormPopupId={changeFormPopupId} changePopupValue={changePopupValue} />
+          {
+            changeFormPopup &&
+            <NameComp changeFormId={changeFormId} changePopupValue={changePopupValue} />
+          }
+          <div
+            className={s.createForm}
+            onClick={() => {
+              AddNewForm({
+                formName: 'Новая форма',
+                formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
+                id: time,
+                FormDescr: '',
+                questions: [
+                  {
+                    questionOneOfTheList: [],
+                    parentId: time,
+                    questionName: "Вопрос",
+                    questionDescr: '',
+                    questionType: 'Текст (строка)',
+                    questionId: uuidv1(),
+                    requiredQuestion: false,
+                    questionDescrIsActive: false
+                  }
+                ],
+                formTheme: '#673ab7',
+                formThemeBackGround: '#f0ebf8'
+              });
+            }}
+          >
+            <svg>
+              <g xmlns="http://www.w3.org/2000/svg" >
+                <path fill="#4285F4" d="M10 10v4.001h14V10z" />
+                <path fill="#FBBC05" d="M10 10H0v4.001h10L14.001 10z" />
+                <path fill="#34A853" d="M10 14h4v10h-4z" />
+                <path fill="#EA4335" d="M10 0v14l4.001-4V0z" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      )
+    }
+  }
+  return checkLoader()
 }
 
 export default HomePage

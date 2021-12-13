@@ -22,7 +22,7 @@ const VariantName: React.FC<VariantNameProps> = ({ item, variant}) => {
   const debouncedChangeHandler = debounce(changeName, 2000);
   
   return (
-    <input id='name' type="text" className={s.name} defaultValue={variant.oneOfTheListName} onChange={(e) => {
+    <input type="text" className={s.name} defaultValue={variant.oneOfTheListName} onChange={(e) => {
       debouncedChangeHandler(Form,{
         questionId: item.questionId,
         parentId: item.parentId,
