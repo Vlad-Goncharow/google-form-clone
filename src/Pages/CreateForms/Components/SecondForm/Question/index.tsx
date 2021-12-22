@@ -152,21 +152,26 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
               </div>
               <div className={s.footerIcon}>
                 <MoreVertIcon onClick={() => setDescrPopup(true)}/>
-                {descrPopup &&
-                <div className={s.popup} ref={descrPopupRef}>
-                  <ul>
-                    <li onClick={() => setDescrIsActive(Form, {
-                      parentId: item.parentId,
-                      questionId: item.questionId,
-                      questionDescrIsActive:!item.questionDescrIsActive
-                    })}>
-                      {item.questionDescrIsActive &&<CheckIcon />}
-                      <span >
-                        Описание
-                      </span>
-                    </li>
-                  </ul>
-                </div>}
+                {
+                  descrPopup &&
+                  <div className={s.popup} ref={descrPopupRef}>
+                    <ul>
+                      <li onClick={() =>{
+                        setDescrIsActive(Form, {
+                          parentId: item.parentId,
+                          questionId: item.questionId,
+                          questionDescrIsActive: !item.questionDescrIsActive
+                        })
+                        setDescrPopup(false)
+                      }}>
+                        {item.questionDescrIsActive &&<CheckIcon />}
+                        <span>
+                          Описание
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                }
               </div>
             </div>
           </div>
