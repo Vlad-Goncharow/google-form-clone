@@ -75,6 +75,21 @@ export function createForm(state = initialState, action: FormAction): formsState
                     return item
                 })
             }
+        case FormActionsTypes.ADD_NEW_THEME_COLOR:
+            return {
+                ...state,
+                form: state.form.map((item: FormTypeObject) => {
+                    if (item.id === action.payload.id) {
+                        return {
+                            ...item,
+                            formColors: [...item.formColors, action.payload.themeColor],
+                            formTheme: action.payload.formTheme,
+                            formThemeBackGround: action.payload.formThemeBackGround
+                        }
+                    }
+                    return item
+                })
+            }
         case FormActionsTypes.ADD_NEW_QUESTION:
             return {
                 ...state, form: state.form.map((item: FormTypeObject) => {

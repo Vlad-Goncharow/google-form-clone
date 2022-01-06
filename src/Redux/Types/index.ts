@@ -5,7 +5,8 @@ import {
   ChangeFormTheme,
   startLaoding,
   finishLoading,
-  ChangeFormDescrAction
+  ChangeFormDescrAction,
+  AddNewThemeColor
 } from "./FormsTypes";
 
 import { 
@@ -39,8 +40,9 @@ export enum FormActionsTypes {
   CHANGE_QUESTION_ONEOFFTHELIST = 'CHANGE_QUESTION_ONEOFFTHELIST',
   ADD_ONEOFFTHELIST_VARIANT = 'ADD_ONEOFFTHELIST_VARIANT',
   CHANGE_ONEOFFTHELIST_VARIANTNAME = 'CHANGE_ONEOFFTHELIST_VARIANTNAME',
-  DELETE_ONEOFFTHELIST_VARIANTNAME = ' DELETE_ONEOFFTHELIST_VARIANTNAME',
-  SET_DESCR_ISACTIVE = ' SET_DESCR_ISACTIVE',
+  DELETE_ONEOFFTHELIST_VARIANTNAME = 'DELETE_ONEOFFTHELIST_VARIANTNAME',
+  SET_DESCR_ISACTIVE = 'SET_DESCR_ISACTIVE',
+  ADD_NEW_THEME_COLOR = 'ADD_NEW_THEME_COLOR',
 }
 
 export type FormAction = startLaoding | 
@@ -59,4 +61,5 @@ AddOneOfTheListAction |
 ChangeOneOffTheListVariantName | 
 DeleteOneOffTheListVariantName |
 QuestionDesctIsActiveAction | 
-ChangeQuestionDesctAction 
+ChangeQuestionDesctAction |
+AddNewThemeColor

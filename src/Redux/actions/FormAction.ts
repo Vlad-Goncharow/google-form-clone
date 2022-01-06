@@ -2,7 +2,7 @@ import axios from "axios"
 import { Dispatch } from "react"
 import { FormAction, FormActionsTypes } from "../Types"
 
-import { FormTypeObject, RenameFormPayLoad, ChangeFormThemePayLoad, DeleteFormPayload, ChangeFormDescrPayload} from "../Types/FormsTypes"
+import { FormTypeObject, RenameFormPayLoad, ChangeFormThemePayLoad, DeleteFormPayload, ChangeFormDescrPayload, AddNewThemeColorPayLoad} from "../Types/FormsTypes"
 
 export const addForm = (form: FormTypeObject) => {
     return async (dispatch: Dispatch<FormAction>) =>{
@@ -74,6 +74,25 @@ export const changeFormTheme = (form: FormTypeObject | undefined,obj: ChangeForm
                 formThemeBackGround: obj.formThemeBackGround
             })
         } catch(e) {
+            alert('При изменении темы произошла ошибка, попробуйте еще рах')
+        }
+    }
+}
+
+export const AddNewFormColorAction = (form: FormTypeObject, obj: AddNewThemeColorPayLoad) => {
+    return async (dispatch: Dispatch<FormAction>) => {
+        try {
+            dispatch({
+                type: FormActionsTypes.ADD_NEW_THEME_COLOR,
+                payload: obj
+            })
+            await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
+                ...form,
+                formColors: [...form.formColors,obj.themeColor],
+                formTheme: obj.formTheme,
+                formThemeBackGround: obj.formThemeBackGround
+            })
+        } catch (e) {
             alert('При изменении темы произошла ошибка, попробуйте еще рах')
         }
     }

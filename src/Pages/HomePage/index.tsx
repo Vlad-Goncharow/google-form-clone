@@ -94,8 +94,9 @@ function HomePage() {
                     questionDescrIsActive: false
                   }
                 ],
-                formTheme: '#673ab7',
-                formThemeBackGround: '#f0ebf8'
+                formColors:['#db4437','#673ab7','#3f51b5','#4285f4','#03a9f4'],
+                formTheme: '#03a9f4',
+                formThemeBackGround: '#03a9f4'
               });
             }}
           >

@@ -8,7 +8,12 @@ export interface FormTypeObject {
   formTheme:string,
   formThemeBackGround:string,
   formId?:number,
-  FormDescr:string
+  FormDescr:string,
+  formColors: any
+}
+
+export interface FormColorItem{
+  themeColor:any
 }
 
 export interface formsState {
@@ -73,6 +78,21 @@ export interface ChangeFormThemePayLoad {
   formThemeBackGround: string
 }
 //======Изменть тему /change theme
+
+
+
+//======добавить новый увет /add new theme color
+export interface AddNewThemeColor {
+  type: FormActionsTypes.ADD_NEW_THEME_COLOR,
+  payload: AddNewThemeColorPayLoad
+}
+export interface AddNewThemeColorPayLoad {
+  id: string | number,
+  themeColor:string;
+  formTheme: string
+  formThemeBackGround: string
+}
+//======добавить новый увет /add new theme color
 
 
 
