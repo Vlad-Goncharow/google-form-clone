@@ -28,7 +28,7 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
   const dispatch = useDispatch()
   const { Form }: any = React.useContext(FormContext);
   //выбраный цвет в палитре цветов для   новой темы
-  const [color, setColor] = React.useState(Form.themeColor)
+  const [color, setColor] = React.useState(Form?.themeColor)
   //Открыта/закрыта палитра с цветами
   const [colorPicker, setColorPicker] = React.useState<boolean>(false)
   const handleChangeComplete = (color: any) => {
@@ -84,7 +84,7 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
             <div className={s.itemTitle}>Цвет темы</div>
             <div className={s.rowThems}>
               {
-                Form.formColors.map((theme: any, index:number) =>
+                Form?.formColors.map((theme: any, index:number) =>
                   <div
                     onClick={() => changeTheme(Form, {
                       id: Form.id,
@@ -111,7 +111,7 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
         <div className={s.rowThems}>
           {
             //для того что бы не было 5 оттенков белого))
-            Form.formTheme === '#ffffff'?
+            Form?.formTheme === '#ffffff'?
               <div
                 className={Form?.formThemeBackGround === '#fff' ? s.themItem + ' ' + s.activeTheme : s.themItem}
                 style={{ background: '#ffffff' }}
@@ -126,7 +126,7 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
                 }
               </div>
             :
-              colord(Form.formTheme).tints(6).slice(0,5).map((c: any) => 
+              colord(Form?.formTheme).tints(6).slice(0,5).map((c: any) => 
                 <div 
                   className={Form?.formThemeBackGround === c.toHex() ? s.themItem + ' ' + s.activeTheme : s.themItem}
                   style={{ background: c.toHex() }} 
@@ -137,7 +137,7 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
                   })}
                 >
                   {
-                    Form.formThemeBackGround === c.toHex() ? <div className={s.check}></div> : null
+                    Form?.formThemeBackGround === c.toHex() ? <div className={s.check}></div> : null
                   }
                 </div>
             )
