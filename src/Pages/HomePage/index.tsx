@@ -20,10 +20,6 @@ import Loader from "react-loader-spinner";
 function HomePage() {
   const { form, isLoading } = useTypeSelector(store => store.createForm)
   const dispatch = useDispatch()
-  //Доьовление формы
-  const AddNewForm = (obj: FormTypeObject) => {
-    dispatch(addForm(obj))
-  }
 
   let time: string = React.useMemo(() => {
     return uuidv1()
@@ -51,6 +47,30 @@ function HomePage() {
     dispatch(onLoadForms())
   }, [dispatch])
 
+  const AddNewForm = () => {
+    dispatch(addForm({
+      formName: 'Новая форма',
+      formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
+      id: time,
+      FormDescr: '',
+      questions: [
+        {
+          questionOneOfTheList: [],
+          parentId: time,
+          questionName: "Вопрос",
+          questionDescr: '',
+          questionType: 'Текст (строка)',
+          questionId: uuidv1(),
+          requiredQuestion: false,
+          questionDescrIsActive: false
+        }
+      ],
+      formColors: ['#db4437', '#673ab7', '#3f51b5', '#4285f4', '#03a9f4'],
+      formTheme: '#03a9f4',
+      formThemeBackGround: '#03a9f4'
+    }))
+  }
+
   function checkLoader(){
     //я сделал это для того, если проверять через тернарку ошибки нет, но div меняет цвет и выглядит как то не очень
     if (isLoading){
@@ -76,29 +96,7 @@ function HomePage() {
           }
           <div
             className={s.createForm}
-            onClick={() => {
-              AddNewForm({
-                formName: 'Новая форма',
-                formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
-                id: time,
-                FormDescr: '',
-                questions: [
-                  {
-                    questionOneOfTheList: [],
-                    parentId: time,
-                    questionName: "Вопрос",
-                    questionDescr: '',
-                    questionType: 'Текст (строка)',
-                    questionId: uuidv1(),
-                    requiredQuestion: false,
-                    questionDescrIsActive: false
-                  }
-                ],
-                formColors:['#db4437','#673ab7','#3f51b5','#4285f4','#03a9f4'],
-                formTheme: '#03a9f4',
-                formThemeBackGround: '#03a9f4'
-              });
-            }}
+            onClick={AddNewForm}
           >
             <svg>
               <g xmlns="http://www.w3.org/2000/svg" >

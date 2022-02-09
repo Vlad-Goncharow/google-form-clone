@@ -9,11 +9,7 @@ export interface FormTypeObject {
   formThemeBackGround:string,
   formId?:number,
   FormDescr:string,
-  formColors: any
-}
-
-export interface FormColorItem{
-  themeColor:any
+  formColors: string[]
 }
 
 export interface formsState {
@@ -29,7 +25,7 @@ export interface AddFormAction {
 
 
 
-//=====Удалить форма /delete form
+//=====Удалить форму /delete form
 export interface DeleteFormAction {
   type: FormActionsTypes.DELETE_FORM;
   payload: DeleteFormPayload
@@ -37,7 +33,7 @@ export interface DeleteFormAction {
 export interface DeleteFormPayload {
   id: string
 }
-//=====Удалить форма /delete form
+//=====Удалить форму /delete form
 
 
 
@@ -54,7 +50,7 @@ export interface ChangeFormDescrPayload{
 
 
 
-//======Изменть имя вопроса /change form name
+//======Изменить имя вопроса /change form name
 export interface RenameFormAction {
   type: FormActionsTypes.RENAME_FORM;
   payload: RenameFormPayLoad
@@ -63,11 +59,11 @@ export interface RenameFormPayLoad {
   id: string | number;
   formName: string;
 }
-//======Изменть имя вопроса /change form name
+//======Изменить имя вопроса /change form name
 
 
 
-//======Изменть тему /change theme
+//======Изменить тему /change theme
 export interface ChangeFormTheme {
   type:FormActionsTypes.CHANGE_FORM_THEME,
   payload: ChangeFormThemePayLoad
@@ -77,11 +73,11 @@ export interface ChangeFormThemePayLoad {
   formTheme: string,
   formThemeBackGround: string
 }
-//======Изменть тему /change theme
+//======Изменить тему /change theme
 
 
 
-//======добавить новый увет /add new theme color
+//======добавить новый цвет /add new theme color
 export interface AddNewThemeColor {
   type: FormActionsTypes.ADD_NEW_THEME_COLOR,
   payload: AddNewThemeColorPayLoad
@@ -92,7 +88,7 @@ export interface AddNewThemeColorPayLoad {
   formTheme: string
   formThemeBackGround: string
 }
-//======добавить новый увет /add new theme color
+//======добавить новый цвет /add new theme color
 
 
 

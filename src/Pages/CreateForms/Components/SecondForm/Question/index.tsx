@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addFormQuestion, ChangeDescrIsActive, ChangeQuestionDescr, ChangeQuestionName, ChangeQuestionRequired, RemoveQuestion} from '../../../../../Redux/actions/QuestionsActions'
 import { AddNewQuestionActionPayLoad, ChangeQuestionDescrPayload, ChangeQuestionNamePayload, ChangeQuestionRequiredPayload, QuestionDesctIsActivePayload, RemoveQuestionActionPayLoad } from '../../../../../Redux/Types/QuestionsTypes'
-import FormTypes from '../FormTypes/formTypes'
+import FormTypes from '../FormTypes'
 
 import s from './Question.module.scss'
 

@@ -39,9 +39,17 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
     dispatch(changeFormTheme(Form, obj))
   }
   //добовление нового цвета
-  const newColor = (Form: FormTypeObject, obj: AddNewThemeColorPayLoad) => {
-    dispatch(AddNewFormColorAction(Form, obj))
+  const newColor = () => {
+    setColorPicker(false)
+    dispatch(AddNewFormColorAction(Form, {
+      id: Form.id,
+      formTheme: color,
+      formThemeBackGround: color,
+      themeColor: color
+    }))
   }
+
+  const closeColorPicker = () => setColorPicker(false);
 
   return (
     <div className={themeIsOpen ? s.themeBlock + ' ' + s.themeBlock_open : s.themeBlock}>
@@ -67,16 +75,8 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
               onChange={handleChangeComplete}
             />
             <div className={s.colorBtns}>
-              <button onClick={() => {
-                setColorPicker(false)
-                newColor(Form,{ 
-                  id:Form.id,
-                  formTheme:color,
-                  formThemeBackGround:color,
-                  themeColor:color
-                })
-              }}>add</button>
-              <button onClick={() => setColorPicker(false)}>remove</button>
+              <button onClick={newColor}>add</button>
+              <button onClick={closeColorPicker}>remove</button>
             </div>
           </div>
         :
@@ -86,6 +86,7 @@ export const ThemeBlock: React.FC<themeBlockProps> = ({ themeIsOpen, setThemeIsO
               {
                 Form?.formColors.map((theme: any, index:number) =>
                   <div
+                    key={`theme_${theme}_${index}`}
                     onClick={() => changeTheme(Form, {
                       id: Form.id,
                       formTheme: theme,

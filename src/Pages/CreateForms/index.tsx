@@ -1,7 +1,7 @@
 import React from 'react'
-import {Header} from './Components/Header/Header'
+import {Header} from './Components/Header'
 import { SecondForm} from "./Components/SecondForm";
-import MainForm from "./Components/MainForm/MainForm";
+import MainForm from "./Components/MainForm";
 import {ThemeBlock} from "./Components/ThemeBlock";
 import s from './CreateForms.module.scss'
 

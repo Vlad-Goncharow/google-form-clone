@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { DeleteForm } from '../../../../../Redux/actions/FormAction'
@@ -18,19 +18,26 @@ interface LineViewProps {
   changeFormPopupId: (val: string) => void
 }
 
-export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormPopupId}) => {
+export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormPopupId }) => {
   const dispatch = useDispatch()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const refForm = React.useRef(null)
   useOnClickOutside(refForm, () => setOpenMenu(false))
 
-  const removeForm = (form: FormTypeObject, obj: DeleteFormPayload) => {
-    dispatch(DeleteForm(form, obj))
+  const removeForm = (e: SyntheticEvent) => {
+    e.preventDefault()
+    dispatch(DeleteForm(form, { id: form.id.toString() }))
+  }
+
+  const OpenChangeFormNamePopup = (e: SyntheticEvent) => {
+    e.preventDefault()
+    changeFormPopupId(`${form.id}`)
+    changePopupValue(true)
   }
   return (
     <Link to={`/${form.id}`} style={{ textDecoration: 'none' }} className={s.formItem}>
-      <div ref={refForm} className={s.formWrapper}>
+      <div className={s.formWrapper}>
         <div className={s.formImg}></div>
         <footer>
           <div className="formName">{form.formName}</div>
@@ -55,12 +62,8 @@ export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, chan
               </button>
               {
                 openMenu ?
-                  <div className={s.menuOpened}>
-                    <div className={s.menuItem} onClick={(e) => {
-                      e.preventDefault()
-                      changeFormPopupId(`${form.id}`)
-                      changePopupValue(true)
-                    }}>
+                  <div ref={refForm} className={s.menuOpened}>
+                    <div className={s.menuItem} onClick={OpenChangeFormNamePopup}>
                       <button className={s.menuIcon}>
                         <DriveFileRenameOutlineIcon />
                       </button>
@@ -68,10 +71,7 @@ export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, chan
                         Переименование
                       </div>
                     </div>
-                    <div className={s.menuItem} onClick={(e) => {
-                      e.preventDefault()
-                      removeForm(form, { id: form.id.toString() })
-                    }}>
+                    <div className={s.menuItem} onClick={removeForm}>
                       <button className={s.menuIcon} >
                         <DeleteOutlineIcon />
                       </button>
