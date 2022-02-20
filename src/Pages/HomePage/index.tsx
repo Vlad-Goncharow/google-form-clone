@@ -3,26 +3,23 @@ import { v1 as uuidv1 } from 'uuid';
 
 import { useTypeSelector } from '../../hooks/useTypeSelector'
 
-import { useDispatch } from 'react-redux'
-
 import { FormsRow } from './Components/FormsRow'
 import { Header } from './Components/Header'
 
 import s from './HomePage.module.scss'
 
-import { addForm, onLoadForms } from '../../Redux/actions/FormAction'
-import { FormTypeObject } from '../../Redux/Types/FormsTypes'
-
 import { NameComp } from './Components/NameComp';
 import Loader from "react-loader-spinner";
+import { useFormActions } from '../../hooks/UseActions';
 
 
 function HomePage() {
+  const { onLoadForms, addForm } = useFormActions()
   const { form, isLoading } = useTypeSelector(store => store.createForm)
-  const dispatch = useDispatch()
 
-  let time: string = React.useMemo(() => {
+  let uuId: string = React.useMemo(() => {
     return uuidv1()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form])
 
   const [changeFormPopup, setChangeFormPopup] = React.useState<boolean>(false)
@@ -32,31 +29,34 @@ function HomePage() {
   }
   //id формы
   const [changeFormId, setChangeFormId] = React.useState('')
-  const changeFormPopupId = React.useCallback((obj: string) => {
-    setChangeFormId(obj)
+  const changeFormPopupId = React.useCallback((str: string) => {
+    setChangeFormId(str)
   }, [])
 
   //вид отображние форм
   const [grigView, setGridView] = React.useState<boolean>(false)
-  //что б ссылка не терялась на ф-цию и не было ререндеров при передачи ее в щапку
+  //что б ссылка не терялась на ф-цию и не было ререндеров при передачи ее в iапку
   const ChangeFormView = React.useCallback(() => {
     setGridView(prev => !prev)
   }, [])
 
   React.useEffect(() => {
-    dispatch(onLoadForms())
-  }, [dispatch])
+    if(form.length === 0){
+      onLoadForms()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.length])
 
   const AddNewForm = () => {
-    dispatch(addForm({
+    addForm({
       formName: 'Новая форма',
       formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
-      id: time,
+      id: uuId,
       FormDescr: '',
       questions: [
         {
           questionOneOfTheList: [],
-          parentId: time,
+          parentId: uuId,
           questionName: "Вопрос",
           questionDescr: '',
           questionType: 'Текст (строка)',
@@ -68,7 +68,7 @@ function HomePage() {
       formColors: ['#db4437', '#673ab7', '#3f51b5', '#4285f4', '#03a9f4'],
       formTheme: '#03a9f4',
       formThemeBackGround: '#03a9f4'
-    }))
+    })
   }
 
   function checkLoader(){

@@ -1,11 +1,9 @@
 import React from 'react'
-import { AddNewQuestionActionPayLoad, ChangeOneOffTheListVariantNamePayLoad, QuestionOneOfTheList } from '../../../../../../Redux/Types/QuestionsTypes'
+import { AddNewQuestionActionPayLoad, QuestionOneOfTheList } from '../../../../../../Redux/Types/QuestionsTypes'
 import s from './VariantName.module.scss'
-import { ChangeVariantName } from '../../../../../../Redux/actions/QuestionsActions';
-import { useDispatch } from 'react-redux';
 import debounce from '@mui/utils/debounce';
-import { FormContext } from '../../../..';
-import { FormTypeObject } from '../../../../../../Redux/Types/FormsTypes';
+import { useTypeSelector } from '../../../../../../hooks/useTypeSelector';
+import { useQuesitonActions } from '../../../../../../hooks/UseActions';
 
 interface VariantNameProps {
   item: AddNewQuestionActionPayLoad;
@@ -13,23 +11,27 @@ interface VariantNameProps {
 }
 
 const VariantName: React.FC<VariantNameProps> = ({ item, variant}) => {
-  const dispatch = useDispatch()
-  const { Form }: any = React.useContext(FormContext);
+  const { ChangeVariantName } = useQuesitonActions()
+
+  const { currentForm } = useTypeSelector(store => store.createForm)
   
-  const changeName = (Form:FormTypeObject,obj: ChangeOneOffTheListVariantNamePayLoad) => {
-    dispatch(ChangeVariantName(Form,obj))
+  const changeName = (e:any) => {
+    ChangeVariantName(currentForm, {
+      questionId: item.questionId,
+      parentId: item.parentId,
+      oneOfTheListId: variant.oneOfTheListId,
+      oneOfTheListName: e.target.value
+    })
   }
   const debouncedChangeHandler = debounce(changeName, 2000);
   
   return (
-    <input type="text" className={s.name} defaultValue={variant.oneOfTheListName} onChange={(e) => {
-      debouncedChangeHandler(Form,{
-        questionId: item.questionId,
-        parentId: item.parentId,
-        oneOfTheListId: variant.oneOfTheListId,
-        oneOfTheListName: e.target.value
-      })
-    }} />
+    <input 
+      type="text" 
+      className={s.name} 
+      defaultValue={variant.oneOfTheListName} 
+      onChange={debouncedChangeHandler} 
+    />
   )
 }
 

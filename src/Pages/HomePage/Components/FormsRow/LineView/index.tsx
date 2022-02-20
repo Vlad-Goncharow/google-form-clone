@@ -8,9 +8,8 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import s from './LineView.module.scss'
 import { Link } from 'react-router-dom';
 import { DeleteFormPayload, FormTypeObject } from '../../../../../Redux/Types/FormsTypes';
-import { useDispatch } from 'react-redux';
-import { DeleteForm } from '../../../../../Redux/actions/FormAction';
 import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside';
+import { useFormActions } from '../../../../../hooks/UseActions';
 
 
 interface LineViewProps{
@@ -20,7 +19,7 @@ interface LineViewProps{
 }
 
 const LineView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormPopupId}) => {
-  const dispatch = useDispatch()
+  const { DeleteForm } = useFormActions()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const refForm = React.useRef(null)
@@ -28,7 +27,7 @@ const LineView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormP
 
 
   const removeForm = (form: FormTypeObject, obj: DeleteFormPayload) => {
-    dispatch(DeleteForm(form, obj))
+    DeleteForm(form, obj)
   }
 
   return (

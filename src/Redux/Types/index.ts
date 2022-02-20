@@ -6,7 +6,8 @@ import {
   startLaoding,
   finishLoading,
   ChangeFormDescrAction,
-  AddNewThemeColor
+  AddNewThemeColor,
+  SetCurrentForm
 } from "./FormsTypes";
 
 import { 
@@ -43,6 +44,7 @@ export enum FormActionsTypes {
   DELETE_ONEOFFTHELIST_VARIANTNAME = 'DELETE_ONEOFFTHELIST_VARIANTNAME',
   SET_DESCR_ISACTIVE = 'SET_DESCR_ISACTIVE',
   ADD_NEW_THEME_COLOR = 'ADD_NEW_THEME_COLOR',
+  SET_CURRENT_FORM = 'SET_CURRENT_FORM',
 }
 
 export type FormAction = startLaoding | 
@@ -62,4 +64,5 @@ ChangeOneOffTheListVariantName |
 DeleteOneOffTheListVariantName |
 QuestionDesctIsActiveAction | 
 ChangeQuestionDesctAction |
-AddNewThemeColor
+AddNewThemeColor |
+SetCurrentForm

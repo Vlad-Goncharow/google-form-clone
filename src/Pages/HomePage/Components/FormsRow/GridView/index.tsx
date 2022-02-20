@@ -1,8 +1,6 @@
 import React, { SyntheticEvent } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { DeleteForm } from '../../../../../Redux/actions/FormAction'
-import { DeleteFormPayload, FormTypeObject } from '../../../../../Redux/Types/FormsTypes'
+import { FormTypeObject } from '../../../../../Redux/Types/FormsTypes'
 import s from './GridView.module.scss'
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -11,6 +9,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside'
+import { useFormActions } from '../../../../../hooks/UseActions'
 
 interface LineViewProps {
   form: FormTypeObject;
@@ -19,15 +18,15 @@ interface LineViewProps {
 }
 
 export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormPopupId }) => {
-  const dispatch = useDispatch()
+  const {DeleteForm} = useFormActions()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
   const refForm = React.useRef(null)
   useOnClickOutside(refForm, () => setOpenMenu(false))
-
+  
   const removeForm = (e: SyntheticEvent) => {
     e.preventDefault()
-    dispatch(DeleteForm(form, { id: form.id.toString() }))
+    DeleteForm(form, { id: form.id.toString() })
   }
 
   const OpenChangeFormNamePopup = (e: SyntheticEvent) => {
@@ -35,6 +34,7 @@ export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, chan
     changeFormPopupId(`${form.id}`)
     changePopupValue(true)
   }
+  
   return (
     <Link to={`/${form.id}`} style={{ textDecoration: 'none' }} className={s.formItem}>
       <div className={s.formWrapper}>

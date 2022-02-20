@@ -22,8 +22,8 @@ export const addForm = (form: FormTypeObject) => {
 
 export const onLoadForms = () => {
     return async (dispatch: Dispatch<FormAction>) => {
+        dispatch({ type: FormActionsTypes.LOADING_FORM_START })
         try{
-            dispatch({ type: FormActionsTypes.LOADING_FORM_START })
             const { data } = await axios.get<FormTypeObject[]>('https://6115dc868f38520017a385df.mockapi.io/form')
             dispatch({ type: FormActionsTypes.LOADING_FORM_FINISH, payload:data })
         } catch(e) {
@@ -31,29 +31,29 @@ export const onLoadForms = () => {
         }
     }
 }
-
-export const RenameForm = (form: FormTypeObject | undefined,obj: RenameFormPayLoad) => {
+//Оставл null (потом удалить комент)
+export const RenameForm = (form: FormTypeObject|null,obj: RenameFormPayLoad) => {
     return async (dispatch: Dispatch<FormAction>) => {
+        dispatch({
+            type: FormActionsTypes.RENAME_FORM,
+            payload: obj
+        })
         try{
-            dispatch({
-                type: FormActionsTypes.RENAME_FORM,
-                payload: obj
-            })
-            await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, { ...form, formName: obj.formName })
+            axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, { ...form, formName: obj.formName })
         } catch(e) {
             alert('При изменении произошла ошибка попробуйте еще раз')
         }
     }
 }
-
-export const RenameFormDescr = (form: FormTypeObject | undefined, obj: ChangeFormDescrPayload) => {
+//Оставл null (потом удалить комент)
+export const RenameFormDescr = (form: FormTypeObject, obj: ChangeFormDescrPayload) => {
     return async (dispatch: Dispatch<FormAction>) => {
+        dispatch({
+            type: FormActionsTypes.CHANGE_FORM_DESCR,
+            payload: obj
+        })
         try {
-            dispatch({
-                type: FormActionsTypes.CHANGE_FORM_DESCR,
-                payload: obj
-            })
-            await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, 
+            axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, 
             { ...form, FormDescr: obj.FormDescr })
         } catch (e) {
             alert('При изменении произошла ошибка попробуйте еще раз')
@@ -61,14 +61,14 @@ export const RenameFormDescr = (form: FormTypeObject | undefined, obj: ChangeFor
     }
 }
 
-export const changeFormTheme = (form: FormTypeObject | undefined,obj: ChangeFormThemePayLoad) => {
+export const changeFormTheme = (form: FormTypeObject,obj: ChangeFormThemePayLoad) => {
     return async (dispatch: Dispatch<FormAction>) => {
+        dispatch({
+            type: FormActionsTypes.CHANGE_FORM_THEME,
+            payload: obj
+        })
         try{
-            dispatch({
-                type: FormActionsTypes.CHANGE_FORM_THEME,
-                payload: obj
-            })
-            await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
+            axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
                 ...form,
                 formTheme: obj.formTheme,
                 formThemeBackGround: obj.formThemeBackGround
@@ -81,17 +81,18 @@ export const changeFormTheme = (form: FormTypeObject | undefined,obj: ChangeForm
 
 export const AddNewFormColorAction = (form: FormTypeObject, obj: AddNewThemeColorPayLoad) => {
     return async (dispatch: Dispatch<FormAction>) => {
+        dispatch({
+            type: FormActionsTypes.ADD_NEW_THEME_COLOR,
+            payload: obj
+        })
         try {
-            dispatch({
-                type: FormActionsTypes.ADD_NEW_THEME_COLOR,
-                payload: obj
-            })
-            await axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
+            axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
                 ...form,
-                formColors: [...form.formColors,obj.themeColor],
+                formColors: [...form.formColors, obj.themeColor],
                 formTheme: obj.formTheme,
                 formThemeBackGround: obj.formThemeBackGround
             })
+            
         } catch (e) {
             alert('При изменении темы произошла ошибка, попробуйте еще рах')
         }
@@ -109,5 +110,14 @@ export const DeleteForm = (form: FormTypeObject,obj:DeleteFormPayload) => {
         } catch(e){
             alert('При удалении формы произошла ошибка, попробуйте еще раз')
         }
+    }
+}
+
+export const SetCurrentForm = (str:string) => {
+    return (dispatch: Dispatch<FormAction>) => {
+        dispatch({
+            type: FormActionsTypes.SET_CURRENT_FORM,
+            payload: str
+        })
     }
 }

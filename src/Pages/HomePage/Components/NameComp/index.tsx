@@ -1,8 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useFormActions } from '../../../../hooks/UseActions'
 import { useTypeSelector } from '../../../../hooks/useTypeSelector'
-import { RenameForm } from '../../../../Redux/actions/FormAction'
-import { FormTypeObject } from '../../../../Redux/Types/FormsTypes'
 import s from './NameComp.module.scss'
 
 interface NameCompProps {
@@ -11,23 +9,21 @@ interface NameCompProps {
 }
 
 export const NameComp: React.FC<NameCompProps> = ({ changePopupValue, changeFormId}) => {
-  const dispatch = useDispatch()
+  const { RenameForm } = useFormActions()
+
+  const {currentForm} = useTypeSelector(store => store.createForm)
   //для фокуса при первом рендере
   const refInp = React.useRef<HTMLInputElement>(null)
-  //что б найти обьект формы
-  const {form} = useTypeSelector(store => store.createForm)
-  //обьект формы
-  const Form = form.find((el: FormTypeObject) => el.id === changeFormId)
   //текс в инпуте который при нажатии на ок отправтися в диспатч
   const [inpValue, setInpValue] = React.useState<string>('')
   const onInputChange = () => {
     if (inpValue.length !== 0){
-      dispatch(RenameForm(Form, {
+      RenameForm(currentForm, {
         id: changeFormId,
         formName: inpValue,
-      }))
+      })
     }else{
-      alert('Вы не изменили вопрос')
+      alert('Вы не изменили название')
     }
   }
   React.useEffect(() => {
@@ -40,7 +36,12 @@ export const NameComp: React.FC<NameCompProps> = ({ changePopupValue, changeForm
         <h1 className={s.title}> Переиенование</h1>
         <h3 className={s.descr}>Введите новое название</h3>
         <form action="" className={s.form}>
-          <input ref={refInp} type="text" defaultValue={Form?.formName} onChange={(e) => setInpValue(e.target.value)}  />
+          <input 
+            ref={refInp} 
+            type="text" 
+            defaultValue={currentForm?.formName} 
+            onChange={(e) => setInpValue(e.target.value)}  
+          />
         </form>
         <div className={s.buttons}>
           <button className={`${s.btn} ${s.btnError}`} onClick={() => changePopupValue(false)}>Отмена</button>

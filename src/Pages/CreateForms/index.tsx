@@ -7,35 +7,31 @@ import s from './CreateForms.module.scss'
 
 import { useTypeSelector } from '../../hooks/useTypeSelector';
 import { useParams } from 'react-router-dom';
-import { FormTypeObject } from '../../Redux/Types/FormsTypes';
 import { useDispatch } from 'react-redux';
-import { onLoadForms } from '../../Redux/actions/FormAction';
+import { onLoadForms, SetCurrentForm } from '../../Redux/actions/FormAction';
 import Loader from "react-loader-spinner";
 
 export const FormContext = React.createContext({})
 
 export const CreateForms: React.FC = () => {
+    const { id }: any = useParams()
     let dispatch = useDispatch()
+    const {form,isLoading,currentForm} = useTypeSelector(store => store.createForm)
 
     const [themeIsOpen, setThemeIsOpen] = React.useState(false)
-
-    const {form,isLoading} = useTypeSelector(store => store.createForm)
-    const {id}:any = useParams()
-
     //реф что б навесит падинг
     const formRef = React.useRef<HTMLDivElement>(null)
-    //не знаю почему захотелось сделать так, /можно было и find использовать
-    let Form = form[form.findIndex((el:FormTypeObject) => el.id === id)]
-    
+   
     React.useEffect(() =>{
-        if(Form === undefined){
+        if (!form.length){
             dispatch(onLoadForms())
+        } else{
+            dispatch(SetCurrentForm(id))
         }
-    },[Form, dispatch])
+    }, [dispatch, form, id])
+
     return (
-        <FormContext.Provider value={{
-            Form
-        }}>
+        <div>
             {
                 isLoading ?
                 <div className={s.loader}>
@@ -51,7 +47,7 @@ export const CreateForms: React.FC = () => {
             <div 
                 ref={formRef}
                 className={s.form}
-                style={{ background: Form?.formThemeBackGround}}
+                style={{ background: currentForm?.formThemeBackGround}}
             >
                 <Header formRef={formRef} setThemeIsOpen={setThemeIsOpen} />
                 <div className={s.formCreate}>
@@ -61,6 +57,6 @@ export const CreateForms: React.FC = () => {
                 <ThemeBlock themeIsOpen={themeIsOpen} setThemeIsOpen={setThemeIsOpen} />
             </div>
             }
-        </FormContext.Provider>
+        </div>
     )
 }

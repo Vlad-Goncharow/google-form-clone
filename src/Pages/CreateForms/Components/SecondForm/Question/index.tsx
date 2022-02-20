@@ -1,9 +1,8 @@
 import React from 'react'
 import { v1 as uuidv1 } from 'uuid';
-import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { addFormQuestion, ChangeDescrIsActive, ChangeQuestionDescr, ChangeQuestionName, ChangeQuestionRequired, RemoveQuestion} from '../../../../../Redux/actions/QuestionsActions'
-import { AddNewQuestionActionPayLoad, ChangeQuestionDescrPayload, ChangeQuestionNamePayload, ChangeQuestionRequiredPayload, QuestionDesctIsActivePayload, RemoveQuestionActionPayLoad } from '../../../../../Redux/Types/QuestionsTypes'
+
+import { AddNewQuestionActionPayLoad } from '../../../../../Redux/Types/QuestionsTypes'
 import FormTypes from '../FormTypes'
 
 import s from './Question.module.scss'
@@ -14,10 +13,10 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CheckIcon from '@mui/icons-material/Check';  
 import { Questions } from '../Questions'
-import { FormTypeObject } from '../../../../../Redux/Types/FormsTypes';
-import { FormContext } from '../../..';
 import { debounce } from '@mui/material/utils';
 import { useOnClickOutside } from '../../../../../hooks/useOnClickOutside';
+import { useTypeSelector } from '../../../../../hooks/useTypeSelector';
+import { useQuesitonActions } from '../../../../../hooks/UseActions';
 
 
 interface QuestionProps {
@@ -29,58 +28,95 @@ interface QuestionProps {
 }
 
 const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActiveQuestion, setSidebarTop}) => {
+  const {
+    ChangeDescrIsActive,
+    ChangeQuestionName,
+    ChangeQuestionDescr,
+    ChangeQuestionRequired,
+    addFormQuestion,
+    RemoveQuestion
+  } = useQuesitonActions()
+
+  const { currentForm } = useTypeSelector(store => store.createForm)
+
   const {id}:any = useParams()
-  const dispatch = useDispatch()
-  const { Form }: any = React.useContext(FormContext);
 
   const [descrPopup,setDescrPopup] = React.useState<boolean>(false)
-  const descrPopupRef = React.useRef<HTMLDivElement>(null)
+  const descrPopupRef = React.useRef<HTMLUListElement>(null)
   //хук на клик в не блока
   useOnClickOutside(descrPopupRef, () => setDescrPopup(false))
 
-  const setDescrIsActive = (form: FormTypeObject, obj: QuestionDesctIsActivePayload) =>{
-    dispatch(ChangeDescrIsActive(form, obj))
+  const setDescrIsActive = () =>{
+    ChangeDescrIsActive(currentForm, {
+      parentId: item.parentId,
+      questionId: item.questionId,
+      questionDescrIsActive: !item.questionDescrIsActive
+    })
+    setDescrPopup(false)
   }
 
-  const removeQuesion = (form: FormTypeObject,obj: RemoveQuestionActionPayLoad) => {
-    dispatch(RemoveQuestion(form,obj))
+  const chgangeQuestionName = (e:any) => {
+    if (currentForm){
+      ChangeQuestionName(currentForm, {
+        parentId: item.parentId,
+        questionId: item.questionId,
+        questionName: e.target.value
+      })
+    }
   }
-
-  const chgangeQuestionName = (Form: FormTypeObject,obj: ChangeQuestionNamePayload) => {
-    dispatch(ChangeQuestionName(Form,obj))
-  }
-  const questionDescr = (Form: FormTypeObject, obj: ChangeQuestionDescrPayload) => {
-    dispatch(ChangeQuestionDescr(Form,obj))
+  
+  const questionDescr = (e:any) => {
+    if (currentForm){
+      ChangeQuestionDescr(currentForm, {
+        parentId: item.parentId,
+        questionDescr: e.target.value,
+        questionId: item.questionId
+      })
+    }
   }
   const debouncedChangeHandler = debounce(chgangeQuestionName, 2000)
   const questionDescrDebounced = debounce(questionDescr, 2000)
   
 
-  const changeQuestionRequired = (form: FormTypeObject,obj: ChangeQuestionRequiredPayload) => {
-    dispatch(ChangeQuestionRequired(form,obj))
+  const changeQuestionRequired = () => {
+    ChangeQuestionRequired(currentForm, {
+      parentId: item.parentId,
+      questionId: item.questionId
+    })
   }
 
-  const dublicateQuestion = (form: any,obj: AddNewQuestionActionPayLoad) => {
-    dispatch(addFormQuestion(form,obj))
+  const dublicateQuestion = () => {
+    addFormQuestion(currentForm, { ...item, questionId: uuidv1() })
   }
 
   let questionRef = React.useRef<HTMLDivElement>(null)
   React.useEffect(() => {
     let height = questionRef.current?.offsetTop
-    if (height !== undefined) {
-      setSidebarTop((prev: any) => [...prev, height].slice(-Form.questions.length))
+
+      if (height !== undefined) {
+        setSidebarTop((prev: any) => [...prev, height].slice(-currentForm?.questions.length))
+      }
+  }, [active, setSidebarTop, currentForm?.questions.length])
+
+  const deleteQuestion = () =>{
+    if (currentForm){
+      if (itemIndex !== 0) {
+        changeActiveQuestion(itemIndex - 1)
+      }
+      changeActiveQuestion(0)
+      RemoveQuestion(
+        currentForm,
+        {
+          ...item,
+          parentId: id,
+          questionId: item.questionId
+        }
+      )
     }
-  }, [Form.questions.length, active, setSidebarTop])
+  }
 
   return (
     <div ref={questionRef} className={active === itemIndex ? s.secondForm + ' ' + s.secondForm_active : s.secondForm}>
-      {
-        //для открытия вопроса и если вопрос открыт при удаление не работал changeActiveQuestion
-        active === itemIndex ?
-          null
-          :
-          <div onClick={() => changeActiveQuestion(itemIndex)} className={s.w}></div>
-      }
       {
         active === itemIndex ?
           <div className={s.secondFormContainer}>
@@ -90,13 +126,7 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
                   className={s.textarea}
                   defaultValue={item.questionName}
                   placeholder={'Вопрос'}
-                  onChange={(e) => {
-                    debouncedChangeHandler(Form, {
-                      parentId: item.parentId,
-                      questionId: item.questionId,
-                      questionName: e.target.value
-                    })
-                  }}
+                  onChange={debouncedChangeHandler}
                 />
               </div>
               <FormTypes question={item} />
@@ -104,49 +134,42 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
             {
               item.questionDescrIsActive &&
               <form className={s.descr}>
-                <input id='descr' type="text" defaultValue={item.questionDescr.length < 1 ? 'Описание' : item.questionDescr} onChange={(e) => {
-                  questionDescrDebounced(Form,{
-                    parentId:item.parentId,
-                    questionDescr:e.target.value,
-                    questionId:item.questionId
-                  })
-                }}/>
+                <input 
+                id='descr' 
+                type="text" 
+                defaultValue={item.questionDescr.length < 1 ? 'Описание' : item.questionDescr} 
+                onChange={questionDescrDebounced}/>
                 <label htmlFor="descr"></label>
               </form>
             }
             <Questions itemIndex={itemIndex} active={active} item={item} />
             <div className={s.footer} >
               <div className={s.footerIcons}>
-                <div className={s.footerIcon} onClick={() => dublicateQuestion(Form, { ...item, questionId: uuidv1() })}>
+                <div 
+                  className={s.footerIcon} 
+                  onClick={dublicateQuestion}
+                >
                   <ContentCopyIcon />
                 </div>
                 <div className={s.footerIcon}>
                   <DeleteOutlineIcon
-                    onClick={() => {
-                      changeActiveQuestion(itemIndex - 1)
-                      removeQuesion(
-                        Form,
-                      {
-                        ...item,
-                        parentId:id,
-                        questionId:item.questionId
-                      })
-                    }}
+                    onClick={deleteQuestion}
                   />
                 </div>
               </div>
               <div
                 className={s.requiredBlock}
-                onClick={() => {
-                  changeQuestionRequired(Form,{
-                    parentId: item.parentId,
-                    questionId: item.questionId
-                  })
-                }}
+                onClick={changeQuestionRequired}
               >
                 <span>Обязательный вопрос</span>
                 <div className={s.requiredCheck} >
-                  <input type="checkbox" id='required' checked={item.requiredQuestion} onChange={() => !item.requiredQuestion} className="requiredInput" />
+                  <input 
+                    type="checkbox" 
+                    id='required' 
+                    checked={item.requiredQuestion} 
+                    onChange={() => !item.requiredQuestion} 
+                    className="requiredInput" 
+                  />
                   <label htmlFor="required"></label>
                 </div>
               </div>
@@ -154,29 +177,21 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
                 <MoreVertIcon onClick={() => setDescrPopup(true)}/>
                 {
                   descrPopup &&
-                  <div className={s.popup} ref={descrPopupRef}>
-                    <ul>
-                      <li onClick={() =>{
-                        setDescrIsActive(Form, {
-                          parentId: item.parentId,
-                          questionId: item.questionId,
-                          questionDescrIsActive: !item.questionDescrIsActive
-                        })
-                        setDescrPopup(false)
-                      }}>
+                    <ul className={s.popup} ref={descrPopupRef}>
+                      <li onClick={setDescrIsActive}>
                         {item.questionDescrIsActive &&<CheckIcon />}
                         <span>
                           Описание
                         </span>
                       </li>
                     </ul>
-                  </div>
                 }
               </div>
             </div>
           </div>
           :
-          <div className={s.hideBlock}>
+          <div className={s.hideBlock} >
+            <div className={s.w} onClick={() => changeActiveQuestion(itemIndex)}></div>
             <h2 className={s.nameQuestion}>{item.questionName}</h2>
             {
               item.questionDescrIsActive &&

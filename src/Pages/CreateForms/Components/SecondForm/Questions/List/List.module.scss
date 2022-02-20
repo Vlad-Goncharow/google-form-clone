@@ -1,0 +1,28 @@
+.addVAr {
+  display: flex;
+  align-items: center;
+
+
+  button {
+    font-family: Roboto,
+      Arial,
+      sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .2px;
+    line-height: 20px;
+    color: #70757a;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    margin-left: 8px;
+  }
+}
+
+.iconLeft {
+  height: 48px;
+  display: flex;
+  align-items: center;
+
+  color: #70757a;
+}

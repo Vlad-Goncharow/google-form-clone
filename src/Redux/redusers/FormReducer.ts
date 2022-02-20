@@ -10,7 +10,8 @@ import { RemoveQuestionActionPayLoad, ChangeQuestionActionPayLoad, ChangeQuestio
 const initialState: formsState = {
     form: [],
     error:'',
-    isLoading:false
+    isLoading:false,
+    currentForm: null,
 }
 
 export function createForm(state = initialState, action: FormAction): formsState {
@@ -19,6 +20,11 @@ export function createForm(state = initialState, action: FormAction): formsState
             return{
                 ...state,
                 isLoading:true
+            }
+        case FormActionsTypes.SET_CURRENT_FORM:
+            return {
+                ...state,
+                currentForm: state.form[state.form.findIndex(el => el.id === action.payload)]
             }
         case FormActionsTypes.LOADING_FORM_FINISH:
             return{

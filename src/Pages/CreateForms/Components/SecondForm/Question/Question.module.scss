@@ -94,6 +94,7 @@
 //не активный вопрос
 .hideBlock {
   padding: 20px;
+  min-height: inherit;
 }
 
 .nameQuestion {
@@ -162,8 +163,6 @@
   0 1px 3px 0 rgb(0 0 0 / 12%);
   overflow: hidden;
 
-  ul{
-    width: 100%;
     li{
       line-height: 48px;
       width: 100%;
@@ -194,7 +193,6 @@
         background: rgb(231, 225, 225);
       }
     }
-  }
 
   @media (max-width: 992px){
     left: auto;

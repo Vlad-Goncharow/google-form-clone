@@ -7,7 +7,7 @@ import {SideBar} from "./SideBar";
 import { AddNewQuestionActionPayLoad} from '../../../../Redux/Types/QuestionsTypes';
 
 import Question from './Question';
-import { FormContext } from '../..';
+import { useTypeSelector } from '../../../../hooks/useTypeSelector';
 
 
 export const SecondForm: React.FC = () => {
@@ -15,7 +15,7 @@ export const SecondForm: React.FC = () => {
     const [active, setActive] = useState<number>(0)
     //массив с размеров в пикселях от родителю до вопроса/ для тоого что б сайдбар при клике двигался
     const [sidebarTop, setSidebarTop] = useState<number[]>([])
-    const { Form }: any = React.useContext(FormContext);
+    const { currentForm } = useTypeSelector(store => store.createForm)
 
     const changeActiveQuestion = (num:number)=>{
         setActive(num)
@@ -24,7 +24,7 @@ export const SecondForm: React.FC = () => {
     return (
         <div className={s.wrapper}>
             {
-                Form?.questions.map((item: AddNewQuestionActionPayLoad, index: number) =>
+                currentForm?.questions.map((item: AddNewQuestionActionPayLoad, index: number) =>
                     <Question 
                         key={`question_${item.questionId}`} 
                         item={item} 

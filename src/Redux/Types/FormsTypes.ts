@@ -13,15 +13,25 @@ export interface FormTypeObject {
 }
 
 export interface formsState {
-  form: Array<FormTypeObject>;
+  form: FormTypeObject[];
   isLoading:boolean;
   error:string
+  currentForm: FormTypeObject | null;
 }
 
 export interface AddFormAction {
   type: FormActionsTypes.ADD_NEW_FORM;
   payload: FormTypeObject
 }
+
+
+
+//=====Удалить форму /delete form
+export interface SetCurrentForm {
+  type: FormActionsTypes.SET_CURRENT_FORM;
+  payload: string
+}
+//=====Удалить форму /delete form
 
 
 
