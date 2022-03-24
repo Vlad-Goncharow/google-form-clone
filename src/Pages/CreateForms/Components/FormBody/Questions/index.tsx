@@ -5,13 +5,13 @@ import { AddNewQuestionActionPayLoad } from '../../../../../Redux/Types/Question
 import List from './List'
 
 interface Questionsprops {
-  item: AddNewQuestionActionPayLoad
+  question: AddNewQuestionActionPayLoad
   active:number
   itemIndex:number
 }
 
-export const Questions: React.FC<Questionsprops> = ({ item, active, itemIndex}) =>{
-  switch (item.questionType) {
+export const Questions: React.FC<Questionsprops> = ({ question, active, itemIndex}) =>{
+  switch (question.questionType) {
     case 'Текст (строка)':
       return <TextString />
     case 'Текст (абзац)':
@@ -19,7 +19,7 @@ export const Questions: React.FC<Questionsprops> = ({ item, active, itemIndex}) 
     case 'Один из списка':
     case 'Несколько из списка' :
     case 'Раскрывающийся список':
-      return <List active={active} itemIndex={itemIndex} item={item} />
+      return <List active={active} itemIndex={itemIndex} question={question} />
     default :
       return null
   }

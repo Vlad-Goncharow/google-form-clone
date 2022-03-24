@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -15,19 +15,28 @@ import { useFormActions } from '../../../../../hooks/UseActions';
 interface LineViewProps{
   form: FormTypeObject;
   changePopupValue: (val: boolean) => void
-  changeFormPopupId: (val: string) => void
 }
 
-const LineView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormPopupId}) => {
-  const { DeleteForm } = useFormActions()
+const LineView: React.FC<LineViewProps> = ({ form, changePopupValue}) => {
+  const { DeleteForm, SetCurrentForm } = useFormActions()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
+  function openPopup(e: SyntheticEvent) {
+    e.preventDefault()
+    setOpenMenu(true)
+  }
   const refForm = React.useRef(null)
   useOnClickOutside(refForm, () => setOpenMenu(false))
 
 
   const removeForm = (form: FormTypeObject, obj: DeleteFormPayload) => {
     DeleteForm(form, obj)
+  }
+
+  //модалка с переименованием формы
+  const OpenChangeFormNamePopup = (e: SyntheticEvent) => {
+    e.preventDefault()
+    changePopupValue(true)
   }
 
   return (
@@ -41,20 +50,13 @@ const LineView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormP
       <div className={s.right}>
         <span className={s.time}>{form.formDateChange}</span>
         <div className={s.gridMoreMenu}>
-          <button className={s.gridMoreIcon} onClick={(e) => {
-            e.preventDefault()
-            setOpenMenu(true)
-          }}>
+          <button className={s.gridMoreIcon} onClick={openPopup}>
             <MoreVertIcon />
           </button>
           {
             openMenu ?
-              <div className={s.menuOpened}>
-                <div className={s.menuItem} onClick={(e) => {
-                  e.preventDefault()
-                  changeFormPopupId(`${form.id}`)
-                  changePopupValue(true)
-                }}>
+              <div ref={refForm} onClick={() => SetCurrentForm(form.id)} className={s.menuOpened}>
+                <div className={s.menuItem} onClick={OpenChangeFormNamePopup}>
                   <button className={s.menuIcon}>
                     <DriveFileRenameOutlineIcon />
                   </button>

@@ -8,12 +8,12 @@ import { useQuesitonActions } from '../../../../../../hooks/UseActions';
 import { useTypeSelector } from '../../../../../../hooks/useTypeSelector';
 import { v1 as uuidv1 } from 'uuid';
 interface ListProps {
-  item: AddNewQuestionActionPayLoad;
+  question: AddNewQuestionActionPayLoad;
   active: number;
   itemIndex: number;
 }
 
-const List: React.FC<ListProps> = ({item,active,itemIndex}) => {
+const List: React.FC<ListProps> = ({question,active,itemIndex}) => {
   const { AddOneOffTheListVarian} = useQuesitonActions()
 
   const { currentForm } = useTypeSelector(store => store.createForm)
@@ -21,15 +21,15 @@ const List: React.FC<ListProps> = ({item,active,itemIndex}) => {
   const addVariant = () => {
     AddOneOffTheListVarian(currentForm,
       {
-        questionId: item.questionId,
+        questionId: question.questionId,
         oneOfTheListId: uuidv1(),
-        parentId: item.parentId,
-        oneOfTheListName: `Вариант ${item.questionOneOfTheList.length + 1}`
+        parentId: question.parentId,
+        oneOfTheListName: `Вариант ${question.questionOneOfTheList.length + 1}`
       })
   }
 
   const CheckTypeIconVariante = (num:number) => {
-    switch(item.questionType){
+    switch (question.questionType){
       case 'Один из списка' :
         return <RadioButtonUncheckedOutlinedIcon/>
       case 'Несколько из списка':
@@ -46,12 +46,12 @@ const List: React.FC<ListProps> = ({item,active,itemIndex}) => {
 
   return (
     <div>
-      {item.questionOneOfTheList.map((el: QuestionOneOfTheList,index:number)=>
+      {question.questionOneOfTheList.map((variant: QuestionOneOfTheList,index:number)=>
         <ListItem 
-          key={`${el.oneOfTheListId}_variant`} 
-          el={el} 
+          key={`${variant.oneOfTheListId}_variant`} 
+          variant={variant} 
           variantIndex={index}
-          item={item}
+          question={question}
           active={active}
           itemIndex={itemIndex}
           activeQuestion={activeQuestion}
@@ -63,7 +63,7 @@ const List: React.FC<ListProps> = ({item,active,itemIndex}) => {
         itemIndex === active ?
           <div className={s.addVAr}>
             <div className={s.iconLeft}>
-              {CheckTypeIconVariante(item.questionOneOfTheList.length + 1)}
+              {CheckTypeIconVariante(question.questionOneOfTheList.length + 1)}
             </div>
             <button onClick={addVariant}>
               добавить вариант

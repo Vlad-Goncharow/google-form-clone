@@ -1,18 +1,17 @@
-import React from 'react'
+import React,{  ChangeEvent} from 'react'
 
-import s from './MainForm.module.scss'
+import s from './FormName.module.scss'
 import { useParams } from 'react-router-dom'
 import { debounce } from '@mui/material/utils'
 import { useTypeSelector } from '../../../../hooks/useTypeSelector'
 import { useFormActions } from '../../../../hooks/UseActions'
 
-const MainForm: React.FC = () => {
+export const FormName: React.FC = () => {
     const {id}:any = useParams()
     const { RenameForm, RenameFormDescr } = useFormActions()
-    //Текущая форма
     const { currentForm } = useTypeSelector(store => store.createForm)
-    //занчение в инпуте
-    const changeName = (e:any) => {
+
+    const changeName = (e: ChangeEvent<HTMLInputElement>) => {
         if (currentForm){
             RenameForm(currentForm, {
                 id: id,
@@ -20,7 +19,8 @@ const MainForm: React.FC = () => {
             })
         }
     }
-    const changeDescr = (e: any) => {
+
+    const changeDescr = (e: ChangeEvent<HTMLInputElement>) => {
         if (currentForm) {
             RenameFormDescr(currentForm, {
                 id: id,
@@ -52,5 +52,3 @@ const MainForm: React.FC = () => {
         </form>
     )
 }
-
-export default MainForm

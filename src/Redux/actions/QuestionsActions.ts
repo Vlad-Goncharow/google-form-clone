@@ -1,5 +1,6 @@
 import axios from "axios"
 import { Dispatch } from "react"
+import { getTime } from "../../helper"
 import { FormAction, FormActionsTypes } from "../Types"
 import { FormTypeObject } from "../Types/FormsTypes"
 import {
@@ -25,6 +26,7 @@ export const addFormQuestion = (form: any | undefined, obj: AddNewQuestionAction
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: [...form.questions, obj]
       })
     } catch (e) {
@@ -42,6 +44,7 @@ export const RemoveQuestion = (form: FormTypeObject, obj: RemoveQuestionActionPa
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form.questions.filter((el: AddNewQuestionActionPayLoad) => el.questionId !== obj.questionId)
       })
     } catch (e) {
@@ -59,6 +62,7 @@ export const ChangeQuestionType = (form: FormTypeObject | null, obj: ChangeQuest
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form?.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -84,6 +88,7 @@ export const ChangeQuestionName = (form: FormTypeObject, obj: ChangeQuestionName
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -109,6 +114,7 @@ export const ChangeDescrIsActive = (form: FormTypeObject | null, obj: QuestionDe
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form?.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -134,6 +140,7 @@ export const ChangeQuestionDescr = (form: FormTypeObject, obj: ChangeQuestionDes
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -159,6 +166,7 @@ export const ChangeQuestionRequired = (form: FormTypeObject | null, obj: ChangeQ
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form?.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -184,6 +192,7 @@ export const AddOneOffTheListVarian = (form: FormTypeObject | null, obj: AddOneO
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form?.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -212,6 +221,7 @@ export const ChangeVariantName = (form: FormTypeObject | null, obj: ChangeOneOff
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form?.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {
@@ -245,6 +255,7 @@ export const DeleteVariantName = (form: FormTypeObject | null, obj: DeleteOneOff
     try {
       axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
         ...form,
+        formDateChange: getTime(),
         questions: form?.questions.map((el: AddNewQuestionActionPayLoad) => {
           if (el.questionId === obj.questionId) {
             return {

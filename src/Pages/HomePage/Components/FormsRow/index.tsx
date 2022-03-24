@@ -1,7 +1,6 @@
 import React from 'react'
 import s from './FormsRow.module.scss'
 
-
 import { useTypeSelector } from '../../../../hooks/useTypeSelector'
 import { FormTypeObject } from '../../../../Redux/Types/FormsTypes';
 import { GridView } from './GridView';
@@ -9,11 +8,11 @@ import LineView from './LineView';
 
 interface FormsRowProps {
   changePopupValue: (val: boolean) => void
-  changeFormPopupId: (val: string) => void
   grigView:boolean
+  searchForms:FormTypeObject[]
 }
 
-export const FormsRow: React.FC<FormsRowProps> = React.memo(({ changePopupValue, changeFormPopupId, grigView }) => {
+export const FormsRow: React.FC<FormsRowProps> = React.memo(({ changePopupValue, grigView, searchForms }) => {
   const { form } = useTypeSelector(store => store.createForm)
 
   return (
@@ -21,11 +20,11 @@ export const FormsRow: React.FC<FormsRowProps> = React.memo(({ changePopupValue,
       <div className={s.FormsRow}>
         {
           form.length > 0 ?
-            form.map((form: FormTypeObject) =>
+            searchForms.map((form: FormTypeObject) =>
               grigView ?
-              <LineView key={`form_${form.id}`} form={form} changePopupValue={changePopupValue} changeFormPopupId={changeFormPopupId} />
+              <LineView key={`form_${form.id}`} form={form} changePopupValue={changePopupValue}  />
               :
-              <GridView key={`form_${form.id}`} form={form} changePopupValue={changePopupValue} changeFormPopupId={changeFormPopupId} />
+              <GridView key={`form_${form.id}`} form={form} changePopupValue={changePopupValue}  />
             )
           :
             <div>Создайте форму</div>

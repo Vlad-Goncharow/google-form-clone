@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { AddNewQuestionActionPayLoad, QuestionOneOfTheList } from '../../../../../../Redux/Types/QuestionsTypes'
 import s from './VariantName.module.scss'
 import debounce from '@mui/utils/debounce';
@@ -6,19 +6,22 @@ import { useTypeSelector } from '../../../../../../hooks/useTypeSelector';
 import { useQuesitonActions } from '../../../../../../hooks/UseActions';
 
 interface VariantNameProps {
-  item: AddNewQuestionActionPayLoad;
+  question: AddNewQuestionActionPayLoad;
   variant: QuestionOneOfTheList
 }
 
-const VariantName: React.FC<VariantNameProps> = ({ item, variant}) => {
+const VariantName: React.FC<VariantNameProps> = React.memo(({ question, variant}) => {
+  React.useEffect(()=>{
+    console.log('rerender')
+  },[])
   const { ChangeVariantName } = useQuesitonActions()
 
   const { currentForm } = useTypeSelector(store => store.createForm)
   
-  const changeName = (e:any) => {
+  const changeName = (e: ChangeEvent<HTMLInputElement>) => {
     ChangeVariantName(currentForm, {
-      questionId: item.questionId,
-      parentId: item.parentId,
+      questionId: question.questionId,
+      parentId: question.parentId,
       oneOfTheListId: variant.oneOfTheListId,
       oneOfTheListName: e.target.value
     })
@@ -33,6 +36,6 @@ const VariantName: React.FC<VariantNameProps> = ({ item, variant}) => {
       onChange={debouncedChangeHandler} 
     />
   )
-}
+})
 
 export default VariantName

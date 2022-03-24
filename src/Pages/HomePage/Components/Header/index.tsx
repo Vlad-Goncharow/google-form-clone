@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import Logo from '../../../../components/Logo'
 import s from './Header.module.scss'
 
@@ -9,9 +9,13 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 
 interface HeaderProps{
   ChangeFormView:() => void
+  changeEvent: (e: ChangeEvent<HTMLInputElement>)=>void
+  inputValue:string
+  setInputValue: (str:string) => void
 }
 
-export const Header: React.FC<HeaderProps> = React.memo(({ ChangeFormView }) => {
+export const Header: React.FC<HeaderProps> = React.memo(({ ChangeFormView, inputValue, changeEvent, setInputValue }) => {
+  
   return (
     <div className={s.header}>
       <div className={s.headerTop}>
@@ -19,12 +23,18 @@ export const Header: React.FC<HeaderProps> = React.memo(({ ChangeFormView }) => 
 
         <form action="" className={s.form}>
           <div className={s.formInput}>
-            <input className={s.search} type="text" placeholder='Пойск' />
+            <input 
+              className={s.search} 
+              type="text" 
+              placeholder='Пойск' 
+              value={inputValue}
+              onChange={changeEvent}
+            />
           </div>
           <button className={s.btnSubmit}>
             <SearchIcon />
           </button>
-          <button type='reset' className={s.formClear}>
+          <button type='reset' className={s.formClear} onClick={() => setInputValue('')}>
             <CloseIcon />
           </button>
         </form>

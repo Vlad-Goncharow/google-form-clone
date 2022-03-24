@@ -13,37 +13,32 @@
   color: #70757a;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button{
+    border:none;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    background:transparent;
+
+    &:hover {
+      background: rgb(241, 237, 237);
+    }
+  }
+}
+
 .nameItem {
   margin-left: 10px;
   position: relative;
   flex: auto;
-
-  label {
-    display: none;
-
-    position: absolute;
-    top: 50%;
-    right: 25px;
-    transform: translateY(-50%);
-
-    width: 48px;
-    height: 48px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-  }
-
-  &:hover {
-    label {
-      cursor: pointer;
-      display: flex;
-
-      &:hover {
-        background: rgb(241, 237, 237);
-      }
-    }
-    
-  }
 }
 
 .hoverItem {
@@ -79,20 +74,6 @@
     width: 2px;
     height: 2px;
     background: #000;
-  }
-}
-
-.iconRight {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-
-  &:hover {
-    background: #f9f9f9;
   }
 }
 

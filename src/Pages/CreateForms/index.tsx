@@ -1,7 +1,7 @@
-import React from 'react'
-import {Header} from './Components/Header'
-import { SecondForm} from "./Components/SecondForm";
-import MainForm from "./Components/MainForm";
+import React from 'react';
+import {Header} from './Components/Header';
+import {FormBody} from "./Components/FormBody";
+import {FormName} from "./Components/FormName";
 import {ThemeBlock} from "./Components/ThemeBlock";
 import s from './CreateForms.module.scss'
 
@@ -30,33 +30,33 @@ export const CreateForms: React.FC = () => {
         }
     }, [dispatch, form, id])
 
-    return (
-        <div>
-            {
-                isLoading ?
-                <div className={s.loader}>
-                    <Loader
-                        type="Puff"
-                        color="#00BFFF"
-                        height={100}
-                        width={100}
-                        timeout={3000} //3 secs
-                    />
-                </div>
-                :
-            <div 
+
+    if (isLoading){
+        return (
+            <div className={s.loader}>
+                <Loader
+                    type="Puff"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    timeout={3000} //3 secs
+                />
+            </div>
+        )
+    } else {
+        return (
+            <div
                 ref={formRef}
                 className={s.form}
-                style={{ background: currentForm?.formThemeBackGround}}
+                style={{ background: currentForm?.formThemeBackGround }}
             >
                 <Header formRef={formRef} setThemeIsOpen={setThemeIsOpen} />
                 <div className={s.formCreate}>
-                    <MainForm />
-                    <SecondForm />
+                    <FormName />
+                    <FormBody />
                 </div>
                 <ThemeBlock themeIsOpen={themeIsOpen} setThemeIsOpen={setThemeIsOpen} />
             </div>
-            }
-        </div>
-    )
+        )
+    }
 }

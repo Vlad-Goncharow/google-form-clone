@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { v1 as uuidv1 } from 'uuid';
 import { useParams } from 'react-router-dom'
 
@@ -22,12 +22,12 @@ import { useQuesitonActions } from '../../../../../hooks/UseActions';
 interface QuestionProps {
   itemIndex: number;
   active: number;
-  item: AddNewQuestionActionPayLoad;
+  question: AddNewQuestionActionPayLoad;
   changeActiveQuestion: (num: number) => void;
   setSidebarTop: (num: any) => void;
 }
 
-const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActiveQuestion, setSidebarTop}) => {
+const Question: React.FC<QuestionProps> = ({ itemIndex, active, question, changeActiveQuestion, setSidebarTop}) => {
   const {
     ChangeDescrIsActive,
     ChangeQuestionName,
@@ -48,29 +48,29 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
 
   const setDescrIsActive = () =>{
     ChangeDescrIsActive(currentForm, {
-      parentId: item.parentId,
-      questionId: item.questionId,
-      questionDescrIsActive: !item.questionDescrIsActive
+      parentId: question.parentId,
+      questionId: question.questionId,
+      questionDescrIsActive: !question.questionDescrIsActive
     })
     setDescrPopup(false)
   }
 
-  const chgangeQuestionName = (e:any) => {
+  const chgangeQuestionName = (e: ChangeEvent<HTMLInputElement>) => {
     if (currentForm){
       ChangeQuestionName(currentForm, {
-        parentId: item.parentId,
-        questionId: item.questionId,
+        parentId: question.parentId,
+        questionId: question.questionId,
         questionName: e.target.value
       })
     }
   }
   
-  const questionDescr = (e:any) => {
+  const questionDescr = (e: ChangeEvent<HTMLInputElement>) => {
     if (currentForm){
       ChangeQuestionDescr(currentForm, {
-        parentId: item.parentId,
+        parentId: question.parentId,
         questionDescr: e.target.value,
-        questionId: item.questionId
+        questionId: question.questionId
       })
     }
   }
@@ -80,13 +80,13 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
 
   const changeQuestionRequired = () => {
     ChangeQuestionRequired(currentForm, {
-      parentId: item.parentId,
-      questionId: item.questionId
+      parentId: question.parentId,
+      questionId: question.questionId
     })
   }
 
   const dublicateQuestion = () => {
-    addFormQuestion(currentForm, { ...item, questionId: uuidv1() })
+    addFormQuestion(currentForm, { ...question, questionId: uuidv1() })
   }
 
   let questionRef = React.useRef<HTMLDivElement>(null)
@@ -107,9 +107,9 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
       RemoveQuestion(
         currentForm,
         {
-          ...item,
+          ...question,
           parentId: id,
-          questionId: item.questionId
+          questionId: question.questionId
         }
       )
     }
@@ -124,25 +124,26 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
               <div className={s.questionName}>
                 <input
                   className={s.textarea}
-                  defaultValue={item.questionName}
+                  defaultValue={question.questionName}
                   placeholder={'Вопрос'}
                   onChange={debouncedChangeHandler}
                 />
               </div>
-              <FormTypes question={item} />
+              <FormTypes question={question} />
             </div>
             {
-              item.questionDescrIsActive &&
+              //Описание
+              question.questionDescrIsActive &&
               <form className={s.descr}>
                 <input 
                 id='descr' 
                 type="text" 
-                defaultValue={item.questionDescr.length < 1 ? 'Описание' : item.questionDescr} 
+                defaultValue={question.questionDescr.length < 1 ? 'Описание' : question.questionDescr} 
                 onChange={questionDescrDebounced}/>
                 <label htmlFor="descr"></label>
               </form>
             }
-            <Questions itemIndex={itemIndex} active={active} item={item} />
+            <Questions itemIndex={itemIndex} active={active} question={question} />
             <div className={s.footer} >
               <div className={s.footerIcons}>
                 <div 
@@ -166,8 +167,8 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
                   <input 
                     type="checkbox" 
                     id='required' 
-                    checked={item.requiredQuestion} 
-                    onChange={() => !item.requiredQuestion} 
+                    checked={question.requiredQuestion} 
+                    onChange={() => !question.requiredQuestion} 
                     className="requiredInput" 
                   />
                   <label htmlFor="required"></label>
@@ -179,7 +180,7 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
                   descrPopup &&
                     <ul className={s.popup} ref={descrPopupRef}>
                       <li onClick={setDescrIsActive}>
-                        {item.questionDescrIsActive &&<CheckIcon />}
+                        {question.questionDescrIsActive &&<CheckIcon />}
                         <span>
                           Описание
                         </span>
@@ -190,17 +191,16 @@ const Question: React.FC<QuestionProps> = ({ itemIndex, active, item, changeActi
             </div>
           </div>
           :
-          <div className={s.hideBlock} >
-            <div className={s.w} onClick={() => changeActiveQuestion(itemIndex)}></div>
-            <h2 className={s.nameQuestion}>{item.questionName}</h2>
+          <div className={s.hideBlock} onClick={() => changeActiveQuestion(itemIndex)} >
+            <h2 className={s.nameQuestion}>{question.questionName}</h2>
             {
-              item.questionDescrIsActive &&
+              question.questionDescrIsActive &&
               <form className={`${s.descr} ${s.descr__notactive}`}>
-                <input id='descr' type="text" defaultValue={item.questionDescr.length < 1 ? 'Описание' : item.questionDescr} />
+                <input id='descr' type="text" defaultValue={question.questionDescr.length < 1 ? 'Описание' : question.questionDescr} />
                 <label htmlFor="descr"></label>
               </form>
             }
-            <Questions itemIndex={itemIndex} active={active} item={item} />
+            <Questions itemIndex={itemIndex} active={active} question={question} />
           </div>
       }
     </div>

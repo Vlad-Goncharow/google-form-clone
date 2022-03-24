@@ -5,21 +5,22 @@ import s from './NameComp.module.scss'
 
 interface NameCompProps {
   changePopupValue:(val:boolean) => void
-  changeFormId:string
 }
 
-export const NameComp: React.FC<NameCompProps> = ({ changePopupValue, changeFormId}) => {
+export const NameComp: React.FC<NameCompProps> = ({ changePopupValue}) => {
   const { RenameForm } = useFormActions()
-
   const {currentForm} = useTypeSelector(store => store.createForm)
   //для фокуса при первом рендере
   const refInp = React.useRef<HTMLInputElement>(null)
   //текс в инпуте который при нажатии на ок отправтися в диспатч
   const [inpValue, setInpValue] = React.useState<string>('')
+  //меняю название формы
   const onInputChange = () => {
     if (inpValue.length !== 0){
+      let id = currentForm?.id ? currentForm?.id : '';
+      
       RenameForm(currentForm, {
-        id: changeFormId,
+        id: id,
         formName: inpValue,
       })
     }else{

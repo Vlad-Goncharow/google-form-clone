@@ -1,5 +1,6 @@
 import axios from "axios"
 import { Dispatch } from "react"
+import { getTime } from "../../helper"
 import { FormAction, FormActionsTypes } from "../Types"
 
 import { FormTypeObject, RenameFormPayLoad, ChangeFormThemePayLoad, DeleteFormPayload, ChangeFormDescrPayload, AddNewThemeColorPayLoad} from "../Types/FormsTypes"
@@ -39,7 +40,7 @@ export const RenameForm = (form: FormTypeObject|null,obj: RenameFormPayLoad) => 
             payload: obj
         })
         try{
-            axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, { ...form, formName: obj.formName })
+            axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, { ...form, formDateChange: getTime(), formName: obj.formName })
         } catch(e) {
             alert('При изменении произошла ошибка попробуйте еще раз')
         }
@@ -54,7 +55,7 @@ export const RenameFormDescr = (form: FormTypeObject, obj: ChangeFormDescrPayloa
         })
         try {
             axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, 
-            { ...form, FormDescr: obj.FormDescr })
+            { ...form, formDateChange: getTime(), FormDescr: obj.FormDescr })
         } catch (e) {
             alert('При изменении произошла ошибка попробуйте еще раз')
         }
@@ -70,6 +71,7 @@ export const changeFormTheme = (form: FormTypeObject,obj: ChangeFormThemePayLoad
         try{
             axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
                 ...form,
+                formDateChange: getTime(),
                 formTheme: obj.formTheme,
                 formThemeBackGround: obj.formThemeBackGround
             })
@@ -88,6 +90,7 @@ export const AddNewFormColorAction = (form: FormTypeObject, obj: AddNewThemeColo
         try {
             axios.put(`https://6115dc868f38520017a385df.mockapi.io/form/${form?.formId}`, {
                 ...form,
+                formDateChange: getTime(),
                 formColors: [...form.formColors, obj.themeColor],
                 formTheme: obj.formTheme,
                 formThemeBackGround: obj.formThemeBackGround

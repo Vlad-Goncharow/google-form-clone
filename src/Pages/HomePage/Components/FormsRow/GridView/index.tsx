@@ -14,13 +14,16 @@ import { useFormActions } from '../../../../../hooks/UseActions'
 interface LineViewProps {
   form: FormTypeObject;
   changePopupValue: (val: boolean) => void
-  changeFormPopupId: (val: string) => void
 }
 
-export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, changeFormPopupId }) => {
-  const {DeleteForm} = useFormActions()
+export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue }) => {
+  const {DeleteForm,SetCurrentForm} = useFormActions()
 
   const [openMenu, setOpenMenu] = React.useState<boolean>(false)
+  function openPopup(e: SyntheticEvent){
+    e.preventDefault()
+    setOpenMenu(true)
+  }
   const refForm = React.useRef(null)
   useOnClickOutside(refForm, () => setOpenMenu(false))
   
@@ -29,14 +32,14 @@ export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, chan
     DeleteForm(form, { id: form.id.toString() })
   }
 
+  //модалка с переименованием формы
   const OpenChangeFormNamePopup = (e: SyntheticEvent) => {
     e.preventDefault()
-    changeFormPopupId(`${form.id}`)
     changePopupValue(true)
   }
   
   return (
-    <Link to={`/${form.id}`} style={{ textDecoration: 'none' }} className={s.formItem}>
+    <Link  to={`/${form.id}`} style={{ textDecoration: 'none' }} className={s.formItem}>
       <div className={s.formWrapper}>
         <div className={s.formImg}></div>
         <footer>
@@ -54,15 +57,12 @@ export const GridView: React.FC<LineViewProps> = ({ form, changePopupValue, chan
             </div>
 
             <div className={s.menu}>
-              <button className={s.more} onClick={(e) => {
-                e.preventDefault()
-                setOpenMenu(true)
-              }}>
+              <button className={s.more} onClick={openPopup}>
                 <MoreVertIcon />
               </button>
               {
                 openMenu ?
-                  <div ref={refForm} className={s.menuOpened}>
+                  <div onClick={() => SetCurrentForm(form.id)} ref={refForm} className={s.menuOpened}>
                     <div className={s.menuItem} onClick={OpenChangeFormNamePopup}>
                       <button className={s.menuIcon}>
                         <DriveFileRenameOutlineIcon />

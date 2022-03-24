@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { v1 as uuidv1 } from 'uuid';
 
 import { useTypeSelector } from '../../hooks/useTypeSelector'
@@ -11,6 +11,7 @@ import s from './HomePage.module.scss'
 import { NameComp } from './Components/NameComp';
 import Loader from "react-loader-spinner";
 import { useFormActions } from '../../hooks/UseActions';
+import { getTime } from '../../helper';
 
 
 function HomePage() {
@@ -27,11 +28,6 @@ function HomePage() {
   const changePopupValue = (val: boolean) => {
     setChangeFormPopup(val)
   }
-  //id формы
-  const [changeFormId, setChangeFormId] = React.useState('')
-  const changeFormPopupId = React.useCallback((str: string) => {
-    setChangeFormId(str)
-  }, [])
 
   //вид отображние форм
   const [grigView, setGridView] = React.useState<boolean>(false)
@@ -50,7 +46,7 @@ function HomePage() {
   const AddNewForm = () => {
     addForm({
       formName: 'Новая форма',
-      formDateChange: `Просмотрено: ${new Date().getHours()}:${new Date().getMinutes()}`,
+      formDateChange: getTime(),
       id: uuId,
       FormDescr: '',
       questions: [
@@ -71,47 +67,55 @@ function HomePage() {
     })
   }
 
-  function checkLoader(){
-    //я сделал это для того, если проверять через тернарку ошибки нет, но div меняет цвет и выглядит как то не очень
-    if (isLoading){
-      return (
-        <div className={s.loader} >
-          <Loader
-            type="Puff"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            timeout={3000} //3 secs
-          />
-        </div>
-      )
-    } else {
-      return (
-        <div className={s.HomePage}>
-          <Header ChangeFormView={ChangeFormView} />
-          <FormsRow grigView={grigView} changeFormPopupId={changeFormPopupId} changePopupValue={changePopupValue} />
-          {
-            changeFormPopup &&
-            <NameComp changeFormId={changeFormId} changePopupValue={changePopupValue} />
-          }
-          <div
-            className={s.createForm}
-            onClick={AddNewForm}
-          >
-            <svg>
-              <g xmlns="http://www.w3.org/2000/svg" >
-                <path fill="#4285F4" d="M10 10v4.001h14V10z" />
-                <path fill="#FBBC05" d="M10 10H0v4.001h10L14.001 10z" />
-                <path fill="#34A853" d="M10 14h4v10h-4z" />
-                <path fill="#EA4335" d="M10 0v14l4.001-4V0z" />
-              </g>
-            </svg>
-          </div>
-        </div>
-      )
-    }
+  const [inputValue, setInputValue] = React.useState('')
+  function changeEvent(e: ChangeEvent<HTMLInputElement>) {
+    setInputValue(e.target.value)
   }
-  return checkLoader()
+
+  const searchForms = React.useMemo(()=> {
+    if (inputValue){
+      return form.filter((item: any) => item.formName.toLowerCase().includes(inputValue.toLowerCase()))
+    }
+    return form
+  }, [form, inputValue])
+
+  if (isLoading){
+    return (
+      <div className={s.loader} >
+        <Loader
+          type="Puff"
+          color="#00BFFF"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    )
+  } else {
+    return (
+      <div className={s.HomePage}>
+        <Header setInputValue={setInputValue} inputValue={inputValue} changeEvent={changeEvent} ChangeFormView={ChangeFormView} />
+        <FormsRow searchForms={searchForms} grigView={grigView}  changePopupValue={changePopupValue} />
+        {
+          changeFormPopup &&
+          <NameComp changePopupValue={changePopupValue} />
+        }
+        <div
+          className={s.createForm}
+          onClick={AddNewForm}
+        >
+          <svg>
+            <g xmlns="http://www.w3.org/2000/svg" >
+              <path fill="#4285F4" d="M10 10v4.001h14V10z" />
+              <path fill="#FBBC05" d="M10 10H0v4.001h10L14.001 10z" />
+              <path fill="#34A853" d="M10 14h4v10h-4z" />
+              <path fill="#EA4335" d="M10 0v14l4.001-4V0z" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default HomePage
